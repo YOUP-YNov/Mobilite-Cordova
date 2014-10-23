@@ -4,3 +4,8 @@
 node_modules/
 platforms/
 plugins/
+
+# Vim temp files
+.*.swp
+*.files
+*.out
