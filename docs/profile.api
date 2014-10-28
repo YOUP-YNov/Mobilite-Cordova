@@ -1,0 +1,29 @@
+Arguments in JSON ?
+Answers in JSON ?
+
+User
+	Create user account
+		CREATE	/users/
+
+	Login
+		POST	/users/login
+			?
+
+	Logout
+		POST	/users/logout
+			token
+
+	Query user info
+		GET		/users/{id}
+			token
+
+	Update user info
+		PUT		/users/{id}
+			token
+
+	Delete user account
+		PUT		/users/{id}
+			token
+
+Friends
+	?
