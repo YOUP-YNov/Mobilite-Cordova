@@ -4,8 +4,8 @@ module.controller('SideMenuCtrl', function($scope, $state, LoginService) {
 
     $scope.profileLinks      = [];
 
-    $scope.friendsLink      = {name: 'Profile',     state: 'friends'};
-    $scope.connectionLink   = {name: 'Connection',  state: 'login'};
+    $scope.friendsLink      = {name: 'Profile',     state: 'logged.friends'};
+    $scope.connectionLink   = {name: 'Connection',  state: 'notLogged.login'};
     $scope.logoutLink       = {name: 'Logout',      state: 'logout'};
 
     $scope.onLoginStatusChanged = function() {

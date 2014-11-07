@@ -1,9 +1,12 @@
-var module = angular.module('youp.profile', ['ionic']);
+var module = angular.module('youp.profile', ['ionic', 'ngResource']);
 
 module.controller('ProfileCtrl', function($scope, LoginService) {
 });
 
 module.controller('FriendsCtrl', function($scope, LoginService) {
+});
+
+module.controller('EventsCtrl', function($scope, LoginService) {
 });
 
 module.controller('LoginCtrl', function($scope, $state, LoginService) {
@@ -12,8 +15,12 @@ module.controller('LoginCtrl', function($scope, $state, LoginService) {
 
     $scope.doLogin = function() {
         LoginService.login($scope.loginData);
-        $state.go('^.friends');
     }
+
+    LoginService.addLoginStatusChanged(function () {
+        if(LoginService.isLogged())
+            $state.go('app.profile.logged.friends');
+    });
 
 });
 
@@ -24,7 +31,7 @@ module.controller('LogoutCtrl', function($scope, LoginService) {
 module.controller('SignUpCtrl', function($scope, LoginService) {
 });
 
-module.service('LoginService', function() {
+module.service('LoginService', function(Auth) {
 
     this.loginStatusChangedCallbacks = [];
 
@@ -41,18 +48,22 @@ module.service('LoginService', function() {
     }
 
     this.login = function(data) {
-        // TODO API CALL
-        // TODO SAVE TOKEN
         if(this.isLogged())
             this.logout();
 
-        this.setToken(42);
+        var parent = this;
 
-        this.onLoginStatusChanged();
+        var response = Auth.login(data).$promise.then(function(result) {
+            if(result.Token == "")
+                return;
+
+            parent.setToken(result.Token);
+            parent.onLoginStatusChanged();
+        });
     }
 
     this.logout = function() {
-        // TODO API CALL
+        Auth.logout({token: this.getToken()});
         this.setToken("");
 
         this.onLoginStatusChanged();
@@ -69,26 +80,80 @@ module.service('LoginService', function() {
     }
 });
 
+module.factory('Auth', function($resource) {
+    return $resource('http://youp.loc/api/Auth.php', {}, {
+        login:  {method:'POST',     params:{Email:'@username', Pass:'@password', Device:'Cordova'}},
+        logout: {method:'DELETE',   params:{Token:'@token'}}
+    });
+});
+
+module.factory('User', function($resource) {
+    return $resource('http://youp.loc/api/User.php/:id', {}, {
+        // TODO get real  id
+        query:    {methodoken:'GET',    params:{id:'42'}, isArray:true},
+        create:   {method:'POST',   data:{}, isArray:true},
+        save:     {method:'PUT',    data:{}, isArray:true}
+    });
+});
+
 module.config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
-        .state('app.profile.friends', {
-            url: "/friends",
+        .state('app.profile.logged', {
+            url: "",
+            abstract: true,
             views: {
                 'profileContent' :{
+                    templateUrl: "templates/profile/logged.html"
+                }
+            }
+        })
+        .state('app.profile.logged.friends', {
+            url: "/friends",
+            views: {
+                'friendsContent' :{
                     templateUrl: "templates/profile/friends.html",
                     controller: 'FriendsCtrl'
                 }
             }
         })
-        .state('app.profile.login', {
-            url: "/login",
+        .state('app.profile.logged.events', {
+            url: "/events",
+            views: {
+                'eventsContent' :{
+                    templateUrl: "templates/profile/events.html",
+                    controller: 'EventsCtrl'
+                }
+            }
+        })
+
+        .state('app.profile.notLogged', {
+            url: "",
+            abstract: true,
             views: {
                 'profileContent' :{
+                    templateUrl: "templates/profile/notLogged.html"
+                }
+            }
+        })
+        .state('app.profile.notLogged.login', {
+            url: "/login",
+            views: {
+                'loginContent' :{
                     templateUrl: "templates/profile/login.html",
                     controller: 'LoginCtrl'
                 }
             }
         })
+        .state('app.profile.notLogged.signup', {
+            url: "/signup",
+            views: {
+                'signupContent' :{
+                    templateUrl: "templates/profile/signup.html",
+                    controller: 'SignUpCtrl'
+                }
+            }
+        })
+
         .state('app.profile.logout', {
             url: "/logout",
             views: {

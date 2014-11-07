@@ -1,7 +1,7 @@
 'use strict';
 
 // App name and list of dependencies
-var module = angular.module('youp', ['ionic', 'youp.global', 'youp.profile', 'youp.event']);
+var module = angular.module('youp', ['ionic', 'youp.global', 'youp.profile', 'youp.event', 'ngResource']);
 
 // Init ionic
 module.run(function($ionicPlatform) {
