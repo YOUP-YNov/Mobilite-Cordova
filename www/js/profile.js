@@ -104,14 +104,14 @@ module.service('SignUpService', function(User) {
 });
 
 module.factory('Auth', function($resource) {
-    return $resource(DEV_URL.profile + '/api/Auth.php', {}, {
+    return $resource(DEV_URL.profile + 'api/Auth', {}, {
         login:  {method:'POST',     params:{Email:'@username', Pass:'@password', Device:'Cordova'}},
         logout: {method:'DELETE',   params:{Token:'@token'}}
     });
 });
 
 module.factory('User', function($resource) {
-    return $resource(DEV_URL.profile + '/api/User.php/:id', {}, {
+    return $resource(DEV_URL.profile + 'api/User/:id', {}, {
         // TODO get real  id
         query:    {method:'GET',    params:{id:'@userId'}},
         create:   {method:'POST',   data:{
