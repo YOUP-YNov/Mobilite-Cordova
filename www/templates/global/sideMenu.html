@@ -1,8 +1,12 @@
-<ion-list>
-    <ion-item nav-clear menu-close ui-sref="app.event">
-        Event
-    </ion-item>
-    <ion-item ng-repeat="profileLink in profileLinks" nav-clear menu-close ui-sref="app.profile.{{profileLink.state}}">
-        {{profileLink.name}}
-    </ion-item>
-</ion-list>
+<ion-view>
+    <ion-content>
+        <ion-list>
+            <ion-item ng-click='closeDrawer()' nav-clear ui-sref="app.event">
+                Event
+            </ion-item>
+            <ion-item ng-repeat="profileLink in profileLinks" ng-click='closeDrawer()' nav-clear ui-sref="app.profile.{{profileLink.state}}">
+                {{profileLink.name}}
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>
