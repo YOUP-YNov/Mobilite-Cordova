@@ -1,14 +1,28 @@
 var module = angular.module('youp.profile', ['ionic', 'ngResource']);
 
 module.controller('ProfileCtrl', function($scope, LoginService) {
-	$scope.currentProfile="wildfier";
+	$scope.currentProfile = "";
+
+	$scope.setCurrentProfile = function() {
+		if(LoginService.isLogged()) {
+			var user = LoginService.getLoggedUser();
+			if(user != undefined)
+				$scope.currentProfile = user.Pseudo;
+		} else {
+			$scope.currentProfile = "";
+		}
+	};
+
+	LoginService.addLoginStatusChanged($scope.setCurrentProfile);
+
+	$scope.setCurrentProfile();
 });
 
 module.controller('FriendsCtrl', function($scope, LoginService) {
 	$scope.friendList = [
 		{name: "Fluttershy"},
 		{name: "Derpy"},
-		{name: "Luna"},
+		{name: "Luna"}
 	];
 });
 
@@ -44,7 +58,9 @@ module.controller('SignUpCtrl', function($scope, LoginService, SignUpService) {
 
 });
 
-module.service('LoginService', function(Auth) {
+module.service('LoginService', function(Auth, User) {
+
+	this.loggedUser = undefined;
 
     this.loginStatusChangedCallbacks = [];
 
@@ -54,6 +70,14 @@ module.service('LoginService', function(Auth) {
 
     this.setToken = function(token) {
         window.localStorage['token'] = token;
+    }
+
+    this.getUserId = function() {
+        return window.localStorage['userId'];
+    }
+
+    this.setUserId = function(userId) {
+        window.localStorage['userId'] = userId;
     }
 
     this.isLogged = function() {
@@ -67,10 +91,12 @@ module.service('LoginService', function(Auth) {
         var parent = this;
 
         var response = Auth.login(data).$promise.then(function(result) {
-            if(result.Token == "")
+            if(result.Token == "" || result.Utilisateur_Id == "")
                 return;
 
             parent.setToken(result.Token);
+            parent.setUserId(result.Utilisateur_Id);
+			parent.loggedUser = result;
             parent.onLoginStatusChanged();
         });
     }
@@ -78,6 +104,7 @@ module.service('LoginService', function(Auth) {
     this.logout = function() {
         Auth.logout({token: this.getToken()});
         this.setToken("");
+		this.loggedUser = undefined;
 
         this.onLoginStatusChanged();
     }
@@ -92,6 +119,27 @@ module.service('LoginService', function(Auth) {
         });
     }
 
+	this.getLoggedUser = function() {
+		return this.loggedUser;
+	}
+
+	if(this.isLogged()) {
+        var parent = this;
+		User.query(this.getUserId()).$promise.then(
+			function(result) {
+				if(result.Utilisateur_Id == "") {
+					parent.logout();
+					return;
+				}
+
+				parent.loggedUser = result;
+				parent.onLoginStatusChanged();
+			},
+			function(error) {
+				parent.logout();
+			}
+		);
+	}
 });
 
 module.service('SignUpService', function(User) {
