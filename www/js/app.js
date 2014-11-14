@@ -36,6 +36,7 @@ module.config(function($stateProvider, $urlRouterProvider) {
 
         .state('app.event', {
             url: "/event",
+            abstract: true,
             views: {
                 'appContent': {
                     templateUrl: "templates/event.html",
@@ -54,6 +55,5 @@ module.config(function($stateProvider, $urlRouterProvider) {
             }
         })
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/event');
+    $urlRouterProvider.otherwise('/event/list');
 });
-
