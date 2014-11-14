@@ -1,9 +1,15 @@
 var module = angular.module('youp.profile', ['ionic', 'ngResource']);
 
 module.controller('ProfileCtrl', function($scope, LoginService) {
+	$scope.currentProfile="wildfier";
 });
 
 module.controller('FriendsCtrl', function($scope, LoginService) {
+	$scope.friendList = [
+		{name: "Fluttershy"},
+		{name: "Derpy"},
+		{name: "Luna"},
+	];
 });
 
 module.controller('EventsCtrl', function($scope, LoginService) {

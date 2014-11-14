@@ -1,1 +1,5 @@
-<p>friends</p>
+<ion-list>
+    <ion-item ng-repeat="friend in friendList" nav-clear menu-close ui-sref="app.profile.logged.friend">
+		{{friend.name}}
+	</ion-item>
+</ion-list>
