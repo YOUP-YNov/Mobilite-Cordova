@@ -4,7 +4,7 @@ BASE_URL = {
     forum: 'http://aspmoduleforum.azurewebsites.net/'
 };
 DEV_URL = {
-    profile: 'http://youp.api/profile/',
-    event: 'http://youp.api/event/',
-    forum: 'http://youp.api/forum/'
+    profile: 'http://youp.loc/profile/',
+    event: 'http://youp.loc/event/',
+    forum: 'http://youp.loc/forum/'
 };
