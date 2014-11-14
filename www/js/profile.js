@@ -28,7 +28,14 @@ module.controller('LogoutCtrl', function($scope, LoginService) {
     LoginService.logout();
 });
 
-module.controller('SignUpCtrl', function($scope, LoginService) {
+module.controller('SignUpCtrl', function($scope, LoginService, SignUpService) {
+
+    $scope.signupData = {};
+
+    $scope.doSignUp = function() {
+       SignUpService.signUp($scope.signupData);
+    }
+
 });
 
 module.service('LoginService', function(Auth) {
@@ -78,21 +85,63 @@ module.service('LoginService', function(Auth) {
             callback();
         });
     }
+
+});
+
+module.service('SignUpService', function(User) {
+
+    this.signUp = function(signUpData) {
+        console.log(signUpData);
+        // TODO Vérifier la data
+        var response = User.create(signUpData);
+        response.$promise.then(function(result) {
+            console.log(result);
+        });
+        // TODO Checker le retour
+        // TODO Si succès se connecter
+    }
+
 });
 
 module.factory('Auth', function($resource) {
-    return $resource('http://youp.loc/api/Auth.php', {}, {
+    return $resource(DEV_URL.profile + 'api/Auth', {}, {
         login:  {method:'POST',     params:{Email:'@username', Pass:'@password', Device:'Cordova'}},
         logout: {method:'DELETE',   params:{Token:'@token'}}
     });
 });
 
 module.factory('User', function($resource) {
-    return $resource('http://youp.loc/api/User.php/:id', {}, {
+    return $resource(DEV_URL.profile + 'api/User/:id', {}, {
         // TODO get real  id
-        query:    {methodoken:'GET',    params:{id:'42'}, isArray:true},
-        create:   {method:'POST',   data:{}, isArray:true},
-        save:     {method:'PUT',    data:{}, isArray:true}
+        query:    {method:'GET',    params:{id:'@userId'}},
+        create:   {method:'POST',   data:{
+                        Pseudo:'@username',
+                        MotDePasse:'@password',
+                        Nom:'@lastname',
+                        Prenom:'@firstname',
+                        Sexe:'@gender',
+                        AdresseMail:'@mail',
+                        DateNaissance:'@birthday',
+                        Ville:'@city',
+                        CodePostal:'@zipcode',
+                        Situation:'@sex',
+                        Presentation:'@bio',
+                        Metier:'@job'
+                    }},
+        save:     {method:'PUT',    data:{
+                        Pseudo:'@username',
+                        MotDePasse:'@password',
+                        Nom:'@lastname',
+                        Prenom:'@firstname',
+                        Sexe:'@gender',
+                        AdresseMail:'@',
+                        DateNaissance:'@birthday',
+                        Ville:'@city',
+                        CodePostal:'@zipcode',
+                        Situation:'@sex',
+                        Presentation:'@bio',
+                        Metier:'@job'
+                    }}
     });
 });
 
