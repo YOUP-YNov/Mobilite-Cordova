@@ -1,23 +1,28 @@
-var module = angular.module('youp.global', ['ionic', 'youp.profile', 'youp.event']);
+var module = angular.module('youp.global', ['ionic', 'youp.profile']);
 
-module.controller('SideMenuCtrl', function($scope, $state, LoginService, EventsFactory) {
+module.controller('SideMenuCtrl', function($scope, $state, LoginService) {
 
     $scope.profileLinks      = [];
 
+	$scope.isLogged = LoginService.isLogged();
+
     $scope.friendsLink      = {name: 'Profile',     state: 'logged.friends'};
     $scope.connectionLink   = {name: 'Connection',  state: 'notLogged.login'};
-    $scope.logoutLink       = {name: 'Logout',      state: 'logout'};
 
     $scope.onLoginStatusChanged = function() {
         if (LoginService.isLogged()) {
-            $scope.profileLinks = [
-                $scope.friendsLink,
-                $scope.logoutLink
-            ];
+			$scope.isLogged = true;
+            $scope.profileLinks = [ $scope.friendsLink ];
         } else {
+			$scope.isLogged = false;
             $scope.profileLinks = [ $scope.connectionLink ];
         }
     };
+
+	$scope.doLogout = function() {
+		LoginService.logout();
+		$state.go('app.event.list');
+	};
 
     $scope.onLoginStatusChanged();
 

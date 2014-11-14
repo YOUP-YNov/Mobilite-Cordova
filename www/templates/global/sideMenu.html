@@ -2,7 +2,10 @@
     <ion-item nav-clear menu-close ui-sref="app.event.list">
         Event
     </ion-item>
-    <ion-item ng-repeat="profileLink in profileLinks" nav-clear menu-close ui-sref="app.profile.{{profileLink.state}}">
+	<ion-item ng-repeat="profileLink in profileLinks" nav-clear menu-close ui-sref="app.profile.{{profileLink.state}}">
         {{profileLink.name}}
+    </ion-item>
+	<ion-item ng-show="isLogged" nav-clear menu-close ng-click="doLogout()">
+		Logout
     </ion-item>
 </ion-list>

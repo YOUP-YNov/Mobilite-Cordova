@@ -9,7 +9,7 @@ module.controller('FriendsCtrl', function($scope, LoginService) {
 module.controller('EventsCtrl', function($scope, LoginService) {
 });
 
-module.controller('LoginCtrl', function($scope, $state, LoginService) {
+module.controller('LoginCtrl', function($scope, $state, $ionicPopup, LoginService) {
 
     $scope.loginData = {};
 
@@ -19,9 +19,36 @@ module.controller('LoginCtrl', function($scope, $state, LoginService) {
 
     LoginService.addLoginStatusChanged(function () {
         if(LoginService.isLogged())
-            $state.go('app.profile.logged.friends');
+            $scope.loginSuccess();
     });
 
+    LoginService.addLoginFailed(function () {
+        $scope.loginFail();
+    });
+
+    $scope.loginSuccess = function() {
+        
+        var successPopup = $ionicPopup.show({
+            title: 'Login Success',
+            scope: null,
+            buttons: [
+                { 
+                    text: '<b>OK</b>',
+                    type: 'button-positive',
+                    onTap: function() {
+                        $state.go('app.profile.logged.friends')
+                    }
+                }
+            ]
+        });
+    };
+
+    $scope.loginFail = function() {
+        
+        var successPopup = $ionicPopup.alert({
+            title: 'Login Fail'
+        });
+    };
 });
 
 module.controller('LogoutCtrl', function($scope, LoginService) {
@@ -41,6 +68,7 @@ module.controller('SignUpCtrl', function($scope, LoginService, SignUpService) {
 module.service('LoginService', function(Auth) {
 
     this.loginStatusChangedCallbacks = [];
+    this.loginFailedCallbacks = [];
 
     this.getToken = function() {
         return window.localStorage['token'];
@@ -60,13 +88,20 @@ module.service('LoginService', function(Auth) {
 
         var parent = this;
 
-        var response = Auth.login(data).$promise.then(function(result) {
-            if(result.Token == "")
-                return;
+        var response = Auth.login(data).$promise.then(
+            function(result) {
+                if(result.Token == "") {
+                    parent.onLoginFailed();
+                    return;
+                }
 
-            parent.setToken(result.Token);
-            parent.onLoginStatusChanged();
-        });
+                parent.setToken(result.Token);
+                parent.onLoginStatusChanged();
+            },
+            function(error) {
+                parent.onLoginFailed();
+            }
+        );
     }
 
     this.logout = function() {
@@ -80,8 +115,18 @@ module.service('LoginService', function(Auth) {
         this.loginStatusChangedCallbacks.push(callback);
     }
 
+    this.addLoginFailed = function(callback) {
+        this.loginFailedCallbacks.push(callback);
+    }
+
     this.onLoginStatusChanged = function() {
         angular.forEach(this.loginStatusChangedCallbacks, function(callback){
+            callback();
+        });
+    }
+    
+    this.onLoginFailed = function() {
+        angular.forEach(this.loginFailedCallbacks, function(callback){
             callback();
         });
     }
