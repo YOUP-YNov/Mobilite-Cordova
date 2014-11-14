@@ -159,7 +159,7 @@ module.controller('EventDetailCtrl', function($scope, EventsFactory) {
 module.config(function($stateProvider, $urlRouterProvider){
 	$stateProvider
 		.state('app.event.list', {
-			url: "/list",
+			url: "/list",			
 			views: {
 				'eventContent' :{
 					templateUrl: "templates/event/list.html",
