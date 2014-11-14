@@ -1,126 +1,179 @@
 var module = angular.module('youp.event', ['ionic']);
 
-module.controller('EventCtrl', function($scope) {
-	$scope.events = [
-		{
-		"Evenement_id": 196,
-		"LieuEvenement_id": 133,
-		"Categorie_id": 524,
-		"DateEvenement": "Mon May 17 1999 14:46:33 GMT+0200 (Paris, Madrid (heure d’été))",
-		"TitreEvenement": "laborum exercitation tempor",
-		"MaximumParticipant": 25,
-		"Statut": "En cours",
-		"Prix": 185,
-		"Premium": false,
-		"DateMiseEnAvant": "Thu Nov 11 1971 21:44:32 GMT+0100 (Paris, Madrid)",
-		"Etat_id": 484,
-		"EvenementPhoto_id": "http://placehold.it/32x32",
-		"Adresse": "390 Chester Court, Westwood, Virginia, 2855"
-		},
-		{
-		"Evenement_id": 116,
-		"LieuEvenement_id": 860,
-		"Categorie_id": 938,
-		"DateEvenement": "Wed May 02 1984 12:15:42 GMT+0200 (Paris, Madrid (heure d’été))",
-		"TitreEvenement": "Lorem adipisicing eu",
-		"MaximumParticipant": 41,
-		"Statut": "Terminé",
-		"Prix": 91,
-		"Premium": false,
-		"DateMiseEnAvant": "Fri Oct 27 2006 05:17:53 GMT+0200 (Paris, Madrid (heure d’été))",
-		"Etat_id": 916,
-		"EvenementPhoto_id": "http://placehold.it/32x32",
-		"Adresse": "580 Stuart Street, Brantleyville, Hawaii, 1657"
-		},
-		{
-		"Evenement_id": 102,
-		"LieuEvenement_id": 405,
-		"Categorie_id": 783,
-		"DateEvenement": "Tue Dec 25 1984 12:42:42 GMT+0100 (Paris, Madrid)",
-		"TitreEvenement": "culpa duis aliqua",
-		"MaximumParticipant": 49,
-		"Statut": "En cours",
-		"Prix": 167,
-		"Premium": true,
-		"DateMiseEnAvant": "Thu Jun 07 1979 07:57:06 GMT+0200 (Paris, Madrid (heure d’été))",
-		"Etat_id": 259,
-		"EvenementPhoto_id": "http://placehold.it/32x32",
-		"Adresse": "374 Woodbine Street, Ribera, Kentucky, 7820"
-		},
-		{
-		"Evenement_id": 657,
-		"LieuEvenement_id": 142,
-		"Categorie_id": 524,
-		"DateEvenement": "Sat Feb 19 2005 06:51:35 GMT+0100 (Paris, Madrid)",
-		"TitreEvenement": "sint minim duis",
-		"MaximumParticipant": 43,
-		"Statut": "Complet",
-		"Prix": 56,
-		"Premium": true,
-		"DateMiseEnAvant": "Thu Jan 26 2012 13:11:19 GMT+0100 (Paris, Madrid)",
-		"Etat_id": 577,
-		"EvenementPhoto_id": "http://placehold.it/32x32",
-		"Adresse": "381 Borinquen Pl, Gibsonia, Guam, 9830"
-		},
-		{
-		"Evenement_id": 295,
-		"LieuEvenement_id": 333,
-		"Categorie_id": 758,
-		"DateEvenement": "Sat Oct 20 1984 21:05:45 GMT+0200 (Paris, Madrid (heure d’été))",
-		"TitreEvenement": "reprehenderit cupidatat mollit",
-		"MaximumParticipant": 21,
-		"Statut": "Annulé",
-		"Prix": 121,
-		"Premium": true,
-		"DateMiseEnAvant": "Fri Jul 10 2009 18:39:53 GMT+0200 (Paris, Madrid (heure d’été))",
-		"Etat_id": 32,
-		"EvenementPhoto_id": "http://placehold.it/32x32",
-		"Adresse": "573 Elm Avenue, Roy, Illinois, 7135"
-		},
-		{
-		"Evenement_id": 137,
-		"LieuEvenement_id": 709,
-		"Categorie_id": 329,
-		"DateEvenement": "Sun Nov 06 1994 03:32:47 GMT+0100 (Paris, Madrid)",
-		"TitreEvenement": "labore tempor commodo",
-		"MaximumParticipant": 12,
-		"Statut": "Complet",
-		"Prix": 183,
-		"Premium": true,
-		"DateMiseEnAvant": "Sun Jan 07 1990 12:43:29 GMT+0100 (Paris, Madrid)",
-		"Etat_id": 991,
-		"EvenementPhoto_id": "http://placehold.it/32x32",
-		"Adresse": "188 Rochester Avenue, Lloyd, Arizona, 4174"
-		},
-		{
-		"Evenement_id": 71,
-		"LieuEvenement_id": 99,
-		"Categorie_id": 222,
-		"DateEvenement": "Wed Dec 29 2004 01:16:48 GMT+0100 (Paris, Madrid)",
-		"TitreEvenement": "in anim excepteur",
-		"MaximumParticipant": 17,
-		"Statut": "Ouvert",
-		"Prix": 1,
-		"Premium": true,
-		"DateMiseEnAvant": "Sun Feb 12 1995 05:13:51 GMT+0100 (Paris, Madrid)",
-		"Etat_id": 304,
-		"EvenementPhoto_id": "http://placehold.it/32x32",
-		"Adresse": "705 Harway Avenue, Lynn, South Carolina, 5192"
-		},
-		{
-		"Evenement_id": 782,
-		"LieuEvenement_id": 817,
-		"Categorie_id": 437,
-		"DateEvenement": "Fri Dec 19 1986 23:00:42 GMT+0100 (Paris, Madrid)",
-		"TitreEvenement": "et consequat esse",
-		"MaximumParticipant": 3,
-		"Statut": "Ouvert",
-		"Prix": 61,
-		"Premium": false,
-		"DateMiseEnAvant": "Tue Jan 15 2002 19:43:20 GMT+0100 (Paris, Madrid)",
-		"Etat_id": 734,
-		"EvenementPhoto_id": "http://placehold.it/32x32",
-		"Adresse": "152 Williams Avenue, Dante, New York, 8709"
+module.factory('EventsFactory', function(){
+	var eventsFactory = {
+		events : [
+			{
+			"Evenement_id": 971,
+			"LieuEvenement_id": 603,
+			"Categorie_id": 197,
+			"DateEvenement": "25/09/2014",
+			"TitreEvenement": "labore ut consequat",
+			"MaximumParticipant": 36,
+			"Statut": "Terminé",
+			"Prix": 191,
+			"Premium": true,
+			"DateMiseEnAvant": "26/11/2014",
+			"Etat_id": 619,
+			"EvenementPhoto_id": "http://placehold.it/32x32",
+			"Adresse": "609 Beadel Street, Masthope, Hawaii, 7333"
+			},
+			{
+			"Evenement_id": 686,
+			"LieuEvenement_id": 797,
+			"Categorie_id": 555,
+			"DateEvenement": "20/02/2014",
+			"TitreEvenement": "commodo voluptate dolore",
+			"MaximumParticipant": 33,
+			"Statut": "Annulé",
+			"Prix": 195,
+			"Premium": true,
+			"DateMiseEnAvant": "26/10/2014",
+			"Etat_id": 443,
+			"EvenementPhoto_id": "http://placehold.it/32x32",
+			"Adresse": "427 Oceanview Avenue, Riegelwood, Ohio, 6628"
+			},
+			{
+			"Evenement_id": 359,
+			"LieuEvenement_id": 563,
+			"Categorie_id": 488,
+			"DateEvenement": "01/08/2014",
+			"TitreEvenement": "culpa sunt veniam",
+			"MaximumParticipant": 12,
+			"Statut": "Terminé",
+			"Prix": 165,
+			"Premium": false,
+			"DateMiseEnAvant": "08/08/2014",
+			"Etat_id": 984,
+			"EvenementPhoto_id": "http://placehold.it/32x32",
+			"Adresse": "524 Cropsey Avenue, Cataract, Palau, 5315"
+			},
+			{
+			"Evenement_id": 410,
+			"LieuEvenement_id": 77,
+			"Categorie_id": 41,
+			"DateEvenement": "28/11/2014",
+			"TitreEvenement": "do velit ea",
+			"MaximumParticipant": 6,
+			"Statut": "En cours",
+			"Prix": 160,
+			"Premium": false,
+			"DateMiseEnAvant": "17/05/2014",
+			"Etat_id": 676,
+			"EvenementPhoto_id": "http://placehold.it/32x32",
+			"Adresse": "828 Lott Place, Imperial, Michigan, 7481"
+			},
+			{
+			"Evenement_id": 559,
+			"LieuEvenement_id": 708,
+			"Categorie_id": 467,
+			"DateEvenement": "02/05/2014",
+			"TitreEvenement": "consequat aute aute",
+			"MaximumParticipant": 50,
+			"Statut": "En cours",
+			"Prix": 96,
+			"Premium": false,
+			"DateMiseEnAvant": "24/08/2014",
+			"Etat_id": 416,
+			"EvenementPhoto_id": "http://placehold.it/32x32",
+			"Adresse": "324 Bainbridge Street, Canby, Indiana, 8207"
+			},
+			{
+			"Evenement_id": 430,
+			"LieuEvenement_id": 455,
+			"Categorie_id": 762,
+			"DateEvenement": "14/08/2014",
+			"TitreEvenement": "occaecat mollit ut",
+			"MaximumParticipant": 30,
+			"Statut": "Terminé",
+			"Prix": 182,
+			"Premium": false,
+			"DateMiseEnAvant": "09/10/2014",
+			"Etat_id": 625,
+			"EvenementPhoto_id": "http://placehold.it/32x32",
+			"Adresse": "156 Glenwood Road, Westphalia, Kansas, 5682"
+			},
+			{
+			"Evenement_id": 2,
+			"LieuEvenement_id": 233,
+			"Categorie_id": 718,
+			"DateEvenement": "31/03/2014",
+			"TitreEvenement": "elit minim quis",
+			"MaximumParticipant": 35,
+			"Statut": "En cours",
+			"Prix": 193,
+			"Premium": false,
+			"DateMiseEnAvant": "09/07/2014",
+			"Etat_id": 612,
+			"EvenementPhoto_id": "http://placehold.it/32x32",
+			"Adresse": "627 Seba Avenue, Whitestone, South Dakota, 3216"
+			},
+			{
+			"Evenement_id": 463,
+			"LieuEvenement_id": 210,
+			"Categorie_id": 35,
+			"DateEvenement": "19/07/2014",
+			"TitreEvenement": "velit Lorem aliquip",
+			"MaximumParticipant": 45,
+			"Statut": "En cours",
+			"Prix": 23,
+			"Premium": true,
+			"DateMiseEnAvant": "25/07/2014",
+			"Etat_id": 767,
+			"EvenementPhoto_id": "http://placehold.it/32x32",
+			"Adresse": "582 Dunne Court, Brethren, Oklahoma, 560"
+			},
+			{
+			"Evenement_id": 889,
+			"LieuEvenement_id": 636,
+			"Categorie_id": 548,
+			"DateEvenement": "19/11/2014",
+			"TitreEvenement": "anim voluptate laboris",
+			"MaximumParticipant": 26,
+			"Statut": "Ouvert",
+			"Prix": 181,
+			"Premium": false,
+			"DateMiseEnAvant": "08/06/2014",
+			"Etat_id": 929,
+			"EvenementPhoto_id": "http://placehold.it/32x32",
+			"Adresse": "920 Putnam Avenue, Echo, Kentucky, 7852"
+			}
+		],
+		getEvents : function(){
+			return eventsFactory.events;
 		}
-	];
+	}
+	return eventsFactory;
+});
+
+module.controller('EventCtrl', function($scope, EventsFactory) {
+});
+
+module.controller('EventListCtrl', function($scope, EventsFactory) {
+	$scope.events = EventsFactory.getEvents();
+});
+
+module.controller('EventDetailCtrl', function($scope, EventsFactory) {
+});
+
+module.config(function($stateProvider, $urlRouterProvider){
+	$stateProvider
+		.state('app.event.list', {
+			url: "/list",
+			views: {
+				'eventContent' :{
+					templateUrl: "templates/event/list.html",
+					controller: 'EventListCtrl'					
+				}
+			}
+		})
+		.state('app.event.detail', {
+			url: "/detail",
+			views: {
+				'eventContent' :{
+					templateUrl: "templates/event/detail.html",
+					controller: 'EventDetailCtrl'					
+				}
+			}
+		})
 });

@@ -1,0 +1,13 @@
+<ion-list ng-controller="EventListCtrl">
+	<ion-item class="item-thumbnail-left" href="#" ng-repeat="event in events">
+		<img ng-src="{{event.EvenementPhoto_id}}">
+		<h2>{{event.TitreEvenement}}</h2>
+		<p>
+			{{"le " + event.DateEvenement}}<br>
+			{{"id_location : " + event.LieuEvenement_id}}<br>
+			{{"category_id : " + event.Categorie_id}}<br>
+			{{"Prix : " + event.Prix + " €"}}<br>
+			{{"max_members : " + event.MaximumParticipant}}
+		</p>
+	</ion-item>
+</ion-list>

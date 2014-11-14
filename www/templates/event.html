@@ -5,19 +5,7 @@
 	</ion-nav-buttons>
 
 	<ion-content>
-		<ion-list ng-controller="EventCtrl">
-			<ion-item class="item-thumbnail-left" ng-repeat="event in events">
-				<img ng-src="{{event.EvenementPhoto_id}}">
-				<h2>{{event.TitreEvenement}}</h2>
-				<p>
-					{{event.DateEvenement}}<br>
-					{{event.LieuEvenement_id}}<br>
-					{{event.Categorie_id}}<br>
-					{{event.Prix + " €"}}<br>
-					{{event.MaximumParticipant}}
-				</p>
-			</ion-item>
-		</ion-list>
+		<ion-nav-view name="eventContent"></ion-nav-view>
 	</ion-content>
-
+	
 </ion-view>

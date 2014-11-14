@@ -1,6 +1,6 @@
-var module = angular.module('youp.global', ['ionic', 'youp.profile']);
+var module = angular.module('youp.global', ['ionic', 'youp.profile', 'youp.event']);
 
-module.controller('SideMenuCtrl', function($scope, $state, LoginService) {
+module.controller('SideMenuCtrl', function($scope, $state, LoginService, EventsFactory) {
 
     $scope.profileLinks      = [];
 
