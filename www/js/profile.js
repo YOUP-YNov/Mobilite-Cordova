@@ -1,16 +1,30 @@
 var module = angular.module('youp.profile', ['ionic', 'ngResource']);
 
-module.controller('ProfileCtrl', function($scope, LoginService) {
+module.controller('ProfileCtrl', function($scope) {
+});
+
+module.controller('LoggedCtrl', function($scope, $state, LoginService, UserService) {
+	if(!'userId' in $state.params || $state.params.userId == null)
+		$state.params.userId = "";
+
 	$scope.currentProfile = "";
 
+	$scope.isLoggedProfile = true;
+
 	$scope.setCurrentProfile = function() {
-		if(LoginService.isLogged()) {
-			var user = LoginService.getLoggedUser();
-			if(user != undefined)
-				$scope.currentProfile = user.Pseudo;
-		} else {
-			$scope.currentProfile = "";
+		if(!LoginService.isLogged()) {
+			return;
 		}
+
+		var user = {};
+		console.log($state.params);
+		if('userId' in $state.params && $state.params.userId.length != 0)
+			user = UserService.get($state.params.userId);
+		else
+			user = LoginService.getLoggedUser();
+
+		if(user != undefined)
+			$scope.currentProfile = user.Pseudo;
 	};
 
 	LoginService.addLoginStatusChanged($scope.setCurrentProfile);
@@ -18,12 +32,24 @@ module.controller('ProfileCtrl', function($scope, LoginService) {
 	$scope.setCurrentProfile();
 });
 
-module.controller('FriendsCtrl', function($scope, LoginService) {
-	$scope.friendList = [
-		{name: "Fluttershy"},
-		{name: "Derpy"},
-		{name: "Luna"}
+module.controller('FriendsCtrl', function($scope, $state, LoginService) {
+	$scope.defineFriends = [
+		{name: "wildfier",		userId: 0},
+		{name: "Fluttershy",	userId: 1},
+		{name: "Derpy",			userId: 2},
+		{name: "Luna",			userId: 3}
 	];
+
+	$scope.friendList = [];
+
+	angular.forEach($scope.defineFriends, function(friend) {
+		if( $state.params.userId.length == 0 ||
+			($state.params.userId.length != 0
+			 && friend.userId != $state.params.userId)
+		) {
+			$scope.friendList.push(friend);
+		}
+	});
 });
 
 module.controller('EventsCtrl', function($scope, LoginService) {
@@ -56,7 +82,7 @@ module.controller('LoginCtrl', function($scope, $state, $ionicPopup, LoginServic
                     text: '<b>OK</b>',
                     type: 'button-positive',
                     onTap: function() {
-                        $state.go('app.profile.logged.friends')
+                        $state.go('app.profile.logged.friends');
                     }
                 }
             ]
@@ -85,9 +111,7 @@ module.controller('SignUpCtrl', function($scope, LoginService, SignUpService) {
 
 });
 
-module.service('LoginService', function(Auth, User) {
-
-	this.loggedUser = undefined;
+module.service('LoginService', function(Auth, User, UserService) {
 
     this.loginStatusChangedCallbacks = [];
     this.loginFailedCallbacks = [];
@@ -127,7 +151,7 @@ module.service('LoginService', function(Auth, User) {
 
                 parent.setToken(result.Token);
 				parent.setUserId(result.Utilisateur_Id);
-				parent.loggedUser = result;
+				UserService.add(result);
                 parent.onLoginStatusChanged();
             },
             function(error) {
@@ -139,7 +163,7 @@ module.service('LoginService', function(Auth, User) {
     this.logout = function() {
         Auth.logout({token: this.getToken()});
         this.setToken("");
-		this.loggedUser = undefined;
+        this.setUserId("");
 
         this.onLoginStatusChanged();
     }
@@ -165,19 +189,19 @@ module.service('LoginService', function(Auth, User) {
     }
 
 	this.getLoggedUser = function() {
-		return this.loggedUser;
+		return UserService.get(this.getUserId());
 	}
 
 	if(this.isLogged()) {
         var parent = this;
-		User.query(this.getUserId()).$promise.then(
+		User.get(this.getUserId()).$promise.then(
 			function(result) {
 				if(result.Utilisateur_Id == "") {
 					parent.logout();
 					return;
 				}
 
-				parent.loggedUser = result;
+				UserService.add(result);
 				parent.onLoginStatusChanged();
 			},
 			function(error) {
@@ -202,6 +226,18 @@ module.service('SignUpService', function(User) {
 
 });
 
+module.service('UserService', function(User) {
+	this.userList = {};
+
+	this.add = function(toAdd){
+		this.userList[toAdd.Utilisateur_Id] = toAdd;
+	}
+
+	this.get = function(userId){
+		return this.userList[userId];
+	}
+});
+
 module.factory('Auth', function($resource) {
     return $resource(DEV_URL.profile + 'api/Auth', {}, {
         login:  {method:'POST',     params:{Email:'@username', Pass:'@password', Device:'Cordova'}},
@@ -212,7 +248,7 @@ module.factory('Auth', function($resource) {
 module.factory('User', function($resource) {
     return $resource(DEV_URL.profile + 'api/User/:id', {}, {
         // TODO get real  id
-        query:    {method:'GET',    params:{id:'@userId'}},
+        get:      {method:'GET',    params:{id:'@userId'}},
         create:   {method:'POST',   data:{
                         Pseudo:'@username',
                         MotDePasse:'@password',
@@ -247,16 +283,17 @@ module.factory('User', function($resource) {
 module.config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
         .state('app.profile.logged', {
-            url: "",
+			url: "/:userId",
             abstract: true,
             views: {
                 'profileContent' :{
-                    templateUrl: "templates/profile/logged.html"
+                    templateUrl: "templates/profile/logged.html",
+					controller: 'LoggedCtrl'
                 }
             }
         })
         .state('app.profile.logged.friends', {
-            url: "/friends",
+			url: "/friends",
             views: {
                 'friendsContent' :{
                     templateUrl: "templates/profile/friends.html",

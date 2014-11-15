@@ -1,5 +1,5 @@
 <ion-list>
-    <ion-item ng-repeat="friend in friendList" nav-clear menu-close ui-sref="app.profile.logged.friend">
-		{{friend.name}}
+<ion-item ng-repeat="friend in friendList" nav-clear menu-close ui-sref="app.profile.logged.friends({userId: friend.userId})">
+		{{friend.userId}} {{friend.name}}
 	</ion-item>
 </ion-list>
