@@ -9,6 +9,8 @@ module.controller('LoggedCtrl', function($scope, $state, LoginService, UserServi
 
 	$scope.currentProfile = "";
 
+	$scope.isLoggedProfile = true;
+
 	$scope.setCurrentProfile = function() {
 		if(!LoginService.isLogged()) {
 			return;
