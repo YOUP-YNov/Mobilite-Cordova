@@ -1,1 +1,12 @@
-<h1>Details</h1>
+<ion-tabs class="tabs-striped tabs-top tabs-background-positive tabs-light" animation="slide-left-right">
+    <ion-tab title="Details" ui-sref="app.event.detail.card">
+        <ion-content>
+            <ion-nav-view name="cardContent"></ion-nav-view>
+        </ion-content>
+    </ion-tab>
+    <ion-tab title="Comments" ui-sref="app.event.detail.comment">
+        <ion-content>
+            <ion-nav-view name="commentContent"></ion-nav-view>
+        </ion-content>
+    </ion-tab>
+</ion-tabs>

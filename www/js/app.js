@@ -44,6 +44,7 @@ module.config(function($stateProvider, $urlRouterProvider) {
                 }
             }
         })
+
         .state('app.profile', {
             url: "/profile",
             abstract: true,
