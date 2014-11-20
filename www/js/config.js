@@ -1,6 +1,6 @@
 BASE_URL = {
     profile: 'http://aspmoduleprofil.azurewebsites.net/',
-    event: 'http://aspmoduleevent.azurewebsites.net/',
+    event: 'http://youp-evenementapi.azurewebsites.net/',
     forum: 'http://aspmoduleforum.azurewebsites.net/'
 };
 DEV_URL = {
