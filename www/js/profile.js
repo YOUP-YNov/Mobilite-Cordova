@@ -144,7 +144,7 @@ module.service('LoginService', function(Auth, User, UserService) {
 
         var response = Auth.login(data).$promise.then(
             function(result) {
-				if(result.Token == "" || result.Utilisateur_Id == "") {
+				if(result.Token == "" || result.Utilisateur_Id == undefined || result.Utilisateur_Id == "") {
                     parent.onLoginFailed();
                     return;
                 }
