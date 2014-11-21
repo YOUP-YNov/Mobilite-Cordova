@@ -7,24 +7,18 @@ module.controller('LoggedCtrl', function($scope, $state, LoginService, UserServi
 	if(!'userId' in $state.params || $state.params.userId == null)
 		$state.params.userId = "";
 
-	$scope.currentProfile = "";
+	$scope.user = {};
 
 	$scope.isLoggedProfile = true;
 
 	$scope.setCurrentProfile = function() {
-		if(!LoginService.isLogged()) {
-			return;
-		}
 
-		var user = {};
+		$scope.user = {};
 		console.log($state.params);
 		if('userId' in $state.params && $state.params.userId.length != 0)
-			user = UserService.get($state.params.userId);
-		else
-			user = LoginService.getLoggedUser();
-
-		if(user != undefined)
-			$scope.currentProfile = user.Pseudo;
+			$scope.user = UserService.get($state.params.userId);
+		else if(LoginService.isLogged())
+			$scope.user = LoginService.getLoggedUser();
 	};
 
 	LoginService.addLoginStatusChanged($scope.setCurrentProfile);
