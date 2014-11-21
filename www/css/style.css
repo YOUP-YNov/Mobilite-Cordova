@@ -1,1 +1,10 @@
 /* Empty. Add your own CSS if you like */
+.eventPicture {
+	width: 80px;
+	float: left;
+	margin-right: 10px;
+}
+
+.clear {
+	clear: both;
+}

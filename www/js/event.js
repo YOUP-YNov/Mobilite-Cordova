@@ -40,10 +40,27 @@ module.controller('EventCardCtrl', function($scope, EventsFactory, $stateParams)
 				$scope.event = value;
 			}
 		})
-	});
+	});	
+	$scope.goToProfilOrganizer = function() {
+        // TODO : Rediriger vers le profil de l'organisateur
+    };
+    $scope.subscribeToEvent = function() {
+    	// TODO : S'inscrire à l'évènement seulement si on est loggé
+    }
+    $scope.shareEvent = function() {
+    	// TODO : Envoyer un mail avec les informations correspondantes
+    }
 });
 
-module.controller('EventCommentCtrl', function($scope, EventsFactory){	
+module.controller('EventCommentCtrl', function($scope, EventsFactory, $stateParams){
+	$scope.event = {};
+	EventsFactory.query().$promise.then(function(result) {
+		angular.forEach(result, function(value, key){
+			if(value.Evenement_id == $stateParams.id){
+				$scope.event = value;
+			}
+		})
+	});
 });
 
 // Routes
@@ -77,7 +94,7 @@ module.config(function($stateProvider, $urlRouterProvider){
 			}
 		})
 		.state('app.event.detail.comment', {
-			url: "/comment",
+			url: "/comment/:id",
 			views: {
 				'commentContent' :{
 					templateUrl: "templates/event/comment.html",
