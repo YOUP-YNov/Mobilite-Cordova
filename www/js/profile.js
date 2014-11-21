@@ -187,8 +187,10 @@ module.service('LoginService', function(Auth, User, UserService) {
 
 	if(this.isLogged()) {
         var parent = this;
-		User.get(this.getUserId()).$promise.then(
-			function(result) {
+		UserService.getCallback(this.getUserId(), function(result) {
+			if(result == undefined) {
+				parent.logout();
+			} else {
 				if(result.Utilisateur_Id == "") {
 					parent.logout();
 					return;
@@ -196,11 +198,8 @@ module.service('LoginService', function(Auth, User, UserService) {
 
 				UserService.add(result);
 				parent.onLoginStatusChanged();
-			},
-			function(error) {
-				parent.logout();
 			}
-		);
+		});
 	}
 });
 
@@ -223,11 +222,35 @@ module.service('UserService', function(User) {
 	this.userList = {};
 
 	this.add = function(toAdd){
-		this.userList[toAdd.Utilisateur_Id] = toAdd;
+		if(toAdd != undefined) {
+			this.userList[toAdd.Utilisateur_Id] = toAdd;
+		}
 	}
 
-	this.get = function(userId){
+	this.get = function(userId) {
+		if(this.userList[userId] == undefined) {
+			user = User.get({id: userId});
+			this.add(user);
+			return user;
+		}
+
 		return this.userList[userId];
+	}
+
+	this.getCallback = function(userId, callback){
+		if(this.userList[userId] == undefined) {
+			var parent = this;
+
+			User.get({id: userId}).$promise.then(function(result) {
+				parent.add(result);
+				callback(result);
+			},
+			function(error) {
+				callback(undefined);
+			})
+		} else {
+			callback(this.userList[userId]);
+		}
 	}
 });
 
@@ -240,7 +263,7 @@ module.factory('Auth', function($resource) {
 
 module.factory('User', function($resource) {
     return $resource(BASE_URL.profile + 'api/User/:id', {}, {
-        get:      {method:'GET',    params:{id:'@userId'}},
+		get:      {method:'GET',    params:{id:'@userId'}},
         create:   {method:'POST',   data:{
                         'Pseudo':        '@username',
                         'MotDePasse':    '@password',
