@@ -12,13 +12,17 @@ module.controller('LoggedCtrl', function($scope, $state, LoginService, UserServi
 	$scope.isLoggedProfile = true;
 
 	$scope.setCurrentProfile = function() {
-
 		$scope.user = {};
 		console.log($state.params);
 		if('userId' in $state.params && $state.params.userId.length != 0)
 			$scope.user = UserService.get($state.params.userId);
 		else if(LoginService.isLogged())
 			$scope.user = LoginService.getLoggedUser();
+
+		if(LoginService.isLogged() && $scope.user.Utilisateur_Id != LoginService.getLoggedUser().Utilisateur_Id)
+			$scope.showAddFriend = false;
+		else
+			$scope.showAddFriend = true;
 	};
 
 	LoginService.addLoginStatusChanged($scope.setCurrentProfile);
