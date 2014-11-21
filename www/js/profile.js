@@ -34,10 +34,10 @@ module.controller('LoggedCtrl', function($scope, $state, LoginService, UserServi
 
 module.controller('FriendsCtrl', function($scope, $state, LoginService) {
 	$scope.defineFriends = [
-		{name: "wildfier",		userId: 0},
-		{name: "Fluttershy",	userId: 1},
-		{name: "Derpy",			userId: 2},
-		{name: "Luna",			userId: 3}
+		{name: "wildfier",   userId: 0},
+		{name: "Fluttershy", userId: 1},
+		{name: "Derpy",      userId: 2},
+		{name: "Luna",       userId: 3}
 	];
 
 	$scope.friendList = [];
@@ -239,43 +239,42 @@ module.service('UserService', function(User) {
 });
 
 module.factory('Auth', function($resource) {
-    return $resource(DEV_URL.profile + 'api/Auth', {}, {
-        login:  {method:'POST',     params:{Email:'@username', Pass:'@password', Device:'Cordova'}},
+    return $resource(BASE_URL.profile + 'api/Auth', {}, {
+        login:  {method:'POST',     params:{'Email':'@username', 'Pass':'@password', 'Device':'Cordova'}},
         logout: {method:'DELETE',   params:{Token:'@token'}}
     });
 });
 
 module.factory('User', function($resource) {
-    return $resource(DEV_URL.profile + 'api/User/:id', {}, {
-        // TODO get real  id
+    return $resource(BASE_URL.profile + 'api/User/:id', {}, {
         get:      {method:'GET',    params:{id:'@userId'}},
         create:   {method:'POST',   data:{
-                        Pseudo:'@username',
-                        MotDePasse:'@password',
-                        Nom:'@lastname',
-                        Prenom:'@firstname',
-                        Sexe:'@gender',
-                        AdresseMail:'@mail',
-                        DateNaissance:'@birthday',
-                        Ville:'@city',
-                        CodePostal:'@zipcode',
-                        Situation:'@sex',
-                        Presentation:'@bio',
-                        Metier:'@job'
+                        'Pseudo':        '@username',
+                        'MotDePasse':    '@password',
+                        'Nom':           '@lastname',
+                        'Prenom':        '@firstname',
+                        'Sexe':          '@gender',
+                        'AdresseMail':   '@mail',
+                        'DateNaissance': '@birthday',
+                        'Ville':         '@city',
+                        'CodePostal':    '@zipcode',
+                        'Situation':     '@sex',
+                        'Presentation':  '@bio',
+                        'Metier':        '@job'
                     }},
         save:     {method:'PUT',    data:{
-                        Pseudo:'@username',
-                        MotDePasse:'@password',
-                        Nom:'@lastname',
-                        Prenom:'@firstname',
-                        Sexe:'@gender',
-                        AdresseMail:'@',
-                        DateNaissance:'@birthday',
-                        Ville:'@city',
-                        CodePostal:'@zipcode',
-                        Situation:'@sex',
-                        Presentation:'@bio',
-                        Metier:'@job'
+                        'Pseudo':        '@username',
+                        'MotDePasse':    '@password',
+                        'Nom':           '@lastname',
+                        'Prenom':        '@firstname',
+                        'Sexe':          '@gender',
+                        'AdresseMail':   '@',
+                        'DateNaissance': '@birthday',
+                        'Ville':         '@city',
+                        'CodePostal':    '@zipcode',
+                        'Situation':     '@sex',
+                        'Presentation':  '@bio',
+                        'Metier':        '@job'
                     }}
     });
 });
@@ -283,68 +282,68 @@ module.factory('User', function($resource) {
 module.config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
         .state('app.profile.logged', {
-			url: "/:userId",
+			url:      "/:userId",
             abstract: true,
-            views: {
-                'profileContent' :{
+            views:    {
+                'profileContent': {
                     templateUrl: "templates/profile/logged.html",
-					controller: 'LoggedCtrl'
+					controller:  'LoggedCtrl'
                 }
             }
         })
         .state('app.profile.logged.friends', {
-			url: "/friends",
+			url:   "/friends",
             views: {
-                'friendsContent' :{
+                'friendsContent': {
                     templateUrl: "templates/profile/friends.html",
-                    controller: 'FriendsCtrl'
+                    controller:  'FriendsCtrl'
                 }
             }
         })
         .state('app.profile.logged.events', {
-            url: "/events",
+            url:   "/events",
             views: {
-                'eventsContent' :{
+                'eventsContent': {
                     templateUrl: "templates/profile/events.html",
-                    controller: 'EventsCtrl'
+                    controller:  'EventsCtrl'
                 }
             }
         })
 
         .state('app.profile.notLogged', {
-            url: "",
+            url:      "",
             abstract: true,
-            views: {
-                'profileContent' :{
+            views:    {
+                'profileContent': {
                     templateUrl: "templates/profile/notLogged.html"
                 }
             }
         })
         .state('app.profile.notLogged.login', {
-            url: "/login",
+            url:   "/login",
             views: {
-                'loginContent' :{
+                'loginContent': {
                     templateUrl: "templates/profile/login.html",
-                    controller: 'LoginCtrl'
+                    controller:  'LoginCtrl'
                 }
             }
         })
         .state('app.profile.notLogged.signup', {
-            url: "/signup",
+            url:   "/signup",
             views: {
-                'signupContent' :{
+                'signupContent': {
                     templateUrl: "templates/profile/signup.html",
-                    controller: 'SignUpCtrl'
+                    controller:  'SignUpCtrl'
                 }
             }
         })
 
         .state('app.profile.logout', {
-            url: "/logout",
+            url:   "/logout",
             views: {
-                'profileContent' :{
+                'profileContent': {
                     templateUrl: "templates/profile/logout.html",
-                    controller: 'LogoutCtrl'
+                    controller:  'LogoutCtrl'
                 }
             }
         })
