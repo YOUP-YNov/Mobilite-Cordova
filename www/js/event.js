@@ -21,8 +21,7 @@ module.controller('EventListCtrl', function($scope, EventsFactory){
 		});
     };
     $scope.loadMore = function() {
-    	var eventsNumber = $scope.events.length;
-    	console.log(eventsNumber);
+    	var eventsNumber = $scope.events.length;    	
     	EventsFactory.query({"max_result":eventsNumber + 10}).$promise.then(function(result) {
 			$scope.events = result;
     		$scope.$broadcast('scroll.infiniteScrollComplete');
