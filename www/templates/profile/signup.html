@@ -1,56 +1,62 @@
-<form ng-submit="doSignUp()">
-    <div class="list">
-        <label class="item item-input">
-            <span class="input-label">Pseudo</span>
-            <input type="text" ng-model="signupData.username">
-        </label>
-        <label class="item item-input">
-            <span class="input-label">MotDePasse</span>
-            <input type="text" ng-model="signupData.password">
-        </label>
-        <label class="item item-input">
-            <span class="input-label">Nom</span>
-            <input type="text" ng-model="signupData.lastname">
-        </label>
-        <label class="item item-input">
-            <span class="input-label">Prenom</span>
-            <input type="text" ng-model="signupData.firstname">
-        </label>
-        <label class="item item-input">
-            <span class="input-label">Sexe</span>
-            <input type="text" ng-model="signupData.gender">
-        </label>
-        <label class="item item-input">
-            <span class="input-label">AdresseMail</span>
-            <input type="text" ng-model="signupData.mail">
-        </label>
-        <label class="item item-input">
-            <span class="input-label">DateNaissance</span>
-            <input type="text" ng-model="signupData.birthday">
-        </label>
-        <label class="item item-input">
-            <span class="input-label">Ville</span>
-            <input type="text" ng-model="signupData.city">
-        </label>
-        <label class="item item-input">
-            <span class="input-label">CodePostal</span>
-            <input type="text" ng-model="signupData.zipcode">
-        </label>
-        <label class="item item-input">
-            <span class="input-label">Situation</span>
-            <input type="text" ng-model="signupData.sex">
-        </label>
-        <label class="item item-input">
-            <span class="input-label">Presentation</span>
-            <input type="text" ng-model="signupData.bio">
-        </label>
-        <label class="item item-input">
-            <span class="input-label">Metier</span>
-            <input type="text" ng-model="signupData.job">
-        </label>
+<ion-view>
+	<ion-content>
 
-        <label class="item">
-            <button class="button button-block button-positive" type="submit">Sign Up</button>
-        </label>
-    </div>
-</form>
+		<form ng-submit="doSignUp()">
+			<div class="list">
+				<label class="item item-input">
+					<span class="input-label">Pseudo</span>
+					<input type="text" ng-model="signupData.username">
+				</label>
+				<label class="item item-input">
+					<span class="input-label">MotDePasse</span>
+					<input type="text" ng-model="signupData.password">
+				</label>
+				<label class="item item-input">
+					<span class="input-label">Nom</span>
+					<input type="text" ng-model="signupData.lastname">
+				</label>
+				<label class="item item-input">
+					<span class="input-label">Prenom</span>
+					<input type="text" ng-model="signupData.firstname">
+				</label>
+				<label class="item item-input">
+					<span class="input-label">Sexe</span>
+					<input type="text" ng-model="signupData.gender">
+				</label>
+				<label class="item item-input">
+					<span class="input-label">AdresseMail</span>
+					<input type="text" ng-model="signupData.mail">
+				</label>
+				<label class="item item-input">
+					<span class="input-label">DateNaissance</span>
+					<input type="text" ng-model="signupData.birthday">
+				</label>
+				<label class="item item-input">
+					<span class="input-label">Ville</span>
+					<input type="text" ng-model="signupData.city">
+				</label>
+				<label class="item item-input">
+					<span class="input-label">CodePostal</span>
+					<input type="text" ng-model="signupData.zipcode">
+				</label>
+				<label class="item item-input">
+					<span class="input-label">Situation</span>
+					<input type="text" ng-model="signupData.sex">
+				</label>
+				<label class="item item-input">
+					<span class="input-label">Presentation</span>
+					<input type="text" ng-model="signupData.bio">
+				</label>
+				<label class="item item-input">
+					<span class="input-label">Metier</span>
+					<input type="text" ng-model="signupData.job">
+				</label>
+
+				<label class="item">
+					<button class="button button-block button-positive" type="submit">Sign Up</button>
+				</label>
+			</div>
+		</form>
+
+	</ion-content>
+</ion-view>

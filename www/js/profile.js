@@ -1,4 +1,4 @@
-var module = angular.module('youp.profile', ['ionic', 'ngResource']);
+var module = angular.module('youp.profile', ['ionic', 'ngResource', 'youp.event']);
 
 module.controller('ProfileCtrl', function($scope) {
 });
@@ -50,9 +50,6 @@ module.controller('FriendsCtrl', function($scope, $state, LoginService) {
 			$scope.friendList.push(friend);
 		}
 	});
-});
-
-module.controller('EventsCtrl', function($scope, LoginService) {
 });
 
 module.controller('LoginCtrl', function($scope, $state, $ionicPopup, LoginService) {
@@ -300,8 +297,8 @@ module.config(function($stateProvider, $urlRouterProvider) {
             url:   "/events",
             views: {
                 'eventsContent': {
-                    templateUrl: "templates/profile/events.html",
-                    controller:  'EventsCtrl'
+                    templateUrl: "templates/event/list.html",
+                    controller:  'EventListCtrl'
                 }
             }
         })
