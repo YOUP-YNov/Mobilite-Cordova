@@ -1,15 +1,21 @@
 <ion-content>
+	<ion-refresher 
+		pulling-text="Pull to refresh..." 
+		on-refresh="refreshEvents()">
+	</ion-refresher>
 	<ion-list>	
 		<ion-item href="#/event/card/{{event.Evenement_id}}" ng-repeat="event in events">
-			<img ng-src="#">
-			<h2>{{event.TitreEvenement}}</h2>
+			<img ng-src="{{event.OrganisateurImageUrl}}" class="positive-bg" style="width:33%">
 			<p>
-				{{event.DateEvenement | date : "dd MMMM yyyy"}}<br>
-				{{"id_location : " + event.LieuEvenement_id}}<br>
-				{{"category_id : " + event.Categorie_id}}<br>
-				{{event.Prix | currency : "€" : "2"}}<br>
-				{{"max_members : " + event.MaximumParticipant}}
+				{{event.DateEvenement | date : "dd MMMM yyyy hh:mm"}}<br>
+				{{event.Adresse.Ville}}<br>
+				{{event.Categorie_Libelle}}<br>
+				{{event.Prix + " €"}}<br>				
 			</p>
 		</ion-item>
 	</ion-list>
+	<ion-infinite-scroll 
+		on-infinite="loadMore()" 
+		distance="1%">
+	</ion-infinite-scroll>
 </ion-content>

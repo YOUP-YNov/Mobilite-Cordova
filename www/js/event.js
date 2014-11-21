@@ -3,7 +3,7 @@ var module = angular.module('youp.event', ['ionic', 'ngResource']);
 
 // Services
 module.factory('EventsFactory', function($resource){
-	return $resource(BASE_URL.event + 'api/Evenement', null, {
+	return $resource(BASE_URL.event + 'api/Evenement/:id', null, {
 		'query': {method: 'GET', params: {date_search: '@dateSearch', id_Categorie: '@idCategorie', premium: '@premium', max_result: '@maxResult', max_id: '@maxId', text_search: '@textSearch', orderby: '@orderBy', startRange: '@stateRange', endRange: '@endRange'}, isArray: true}
 	});
 });
@@ -14,9 +14,22 @@ module.controller('EventCtrl', function($scope){
 
 module.controller('EventListCtrl', function($scope, EventsFactory){
 	$scope.events = {};
-	EventsFactory.query().$promise.then(function(result) {
-		$scope.events = result;
-	});
+	$scope.refreshEvents = function() {
+    	EventsFactory.query().$promise.then(function(result) {
+			$scope.events = result;
+			$scope.$broadcast('scroll.refreshComplete');
+		});
+    };
+    $scope.loadMore = function() {
+    	var eventsNumber = $scope.events.length;    	
+    	EventsFactory.query({"max_result":eventsNumber + 10}).$promise.then(function(result) {
+			$scope.events = result;
+    		$scope.$broadcast('scroll.infiniteScrollComplete');
+    	});
+    };
+    $scope.$on('$stateChangeSuccess', function() {
+    	$scope.loadMore();
+    });
 });
 
 module.controller('EventCardCtrl', function($scope, EventsFactory, $stateParams) {	
