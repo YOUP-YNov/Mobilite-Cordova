@@ -1,6 +1,6 @@
 var module = angular.module('youp.global', ['ionic', 'youp.profile']);
 
-module.controller('SideMenuCtrl', function($scope, $state, LoginService) {
+module.controller('SideMenuCtrl', function($scope, $state, $ionicPopup, LoginService) {
 
     $scope.profileLinks      = [];
 
@@ -21,8 +21,15 @@ module.controller('SideMenuCtrl', function($scope, $state, LoginService) {
 
 	$scope.doLogout = function() {
 		LoginService.logout();
+        $scope.logoutPopup();
 		$state.go('app.event.list');
 	};
+
+    $scope.logoutPopup = function() {
+        var logoutPopup = $ionicPopup.alert({
+            title: 'Logout Success'
+        });
+    };
 
     $scope.onLoginStatusChanged();
 

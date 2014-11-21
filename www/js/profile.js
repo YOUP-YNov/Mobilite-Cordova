@@ -97,10 +97,6 @@ module.controller('LoginCtrl', function($scope, $state, $ionicPopup, LoginServic
     };
 });
 
-module.controller('LogoutCtrl', function($scope, LoginService) {
-    LoginService.logout();
-});
-
 module.controller('SignUpCtrl', function($scope, LoginService, SignUpService) {
 
     $scope.signupData = {};
@@ -334,16 +330,6 @@ module.config(function($stateProvider, $urlRouterProvider) {
                 'signupContent': {
                     templateUrl: "templates/profile/signup.html",
                     controller:  'SignUpCtrl'
-                }
-            }
-        })
-
-        .state('app.profile.logout', {
-            url:   "/logout",
-            views: {
-                'profileContent': {
-                    templateUrl: "templates/profile/logout.html",
-                    controller:  'LogoutCtrl'
                 }
             }
         })
