@@ -51,13 +51,28 @@ module.controller('LoginCtrl', function($scope, $state, $ionicPopup, LoginServic
     };
 });
 
-module.controller('SignUpCtrl', function($scope, LoginService, SignUpService) {
+module.controller('SignUpCtrl', function($scope, LoginService, $ionicPopup, SignUpService) {
 
     $scope.signupData = {};
 
     $scope.doSignUp = function() {
        SignUpService.signUp($scope.signupData);
     }
+
+    SignUpService.addSignUpData(function () {
+        $scope.errorData();
+    });
+
+    $scope.errorData = function() {
+
+        var error =  SignUpService.getError()
+
+        var errorPopup = $ionicPopup.alert({
+            title: error
+        });
+
+        console.log(error);
+    };
 
 });
 
@@ -131,15 +146,54 @@ module.service('LoginService', function(Auth) {
 
 module.service('SignUpService', function(User) {
 
+    this.signUpDataCallbacks = [];
+
+    var error = 'NA';
+
+    var parent = this;
+
+    var EMAIL_REGEX = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$/;
+    
     this.signUp = function(signUpData) {
-        console.log(signUpData);
-        // TODO Vérifier la data
-        var response = User.create(signUpData);
-        response.$promise.then(function(result) {
-            console.log(result);
+        // console.log(signUpData);
+        // Check data
+        if(!signUpData.username || !signUpData.password || !signUpData.verifpassword || !signUpData.mail) {
+            error = 'Fields required missing';
+        } else if (signUpData.username !== encodeURIComponent(signUpData.username)) {
+            error = 'Username may not contain any non-url-safe characters';
+        } else if (!signUpData.mail.match(EMAIL_REGEX)) {
+            error = 'Invalid email';
+        } else if (signUpData.password !== signUpData.verifpassword) {
+            error = 'password don\'t match';
+        } else {
+            error = 'GOOD';
+        }
+
+
+        if(error == 'GOOD') {
+            var response = User.create(signUpData);
+            response.$promise.then(function(result) {
+                console.log(result);
+                // TODO Checker le retour
+                // TODO Si succès se connecter
+            });
+        } else {
+            this.onSignUpData();
+        }
+    }
+
+    this.getError = function() {
+        return (error);
+    }
+
+    this.addSignUpData = function(callback) {
+        this.signUpDataCallbacks.push(callback);
+    }
+
+    this.onSignUpData = function() {
+        angular.forEach(this.signUpDataCallbacks, function(callback){
+            callback();
         });
-        // TODO Checker le retour
-        // TODO Si succès se connecter
     }
 
 });
