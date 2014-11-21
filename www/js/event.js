@@ -1,10 +1,11 @@
 // AngularJS module name and list of dependencies
-var module = angular.module('youp.event', ['ionic', 'ngResource']);
+var module = angular.module('youp.event', ['ionic', 'ngResource', 'youp.profile']);
 
 // Services
 module.factory('EventsFactory', function($resource){
 	return $resource(BASE_URL.event + 'api/Evenement/:id', null, {
-		'query': {method: 'GET', params: {date_search: '@dateSearch', id_Categorie: '@idCategorie', premium: '@premium', max_result: '@maxResult', max_id: '@maxId', text_search: '@textSearch', orderby: '@orderBy', startRange: '@stateRange', endRange: '@endRange'}, isArray: true}
+		'query': {method: 'GET', params: {date_search: '@dateSearch', id_Categorie: '@idCategorie', premium: '@premium', max_result: '@maxResult', max_id: '@maxId', text_search: '@textSearch', orderby: '@orderBy', startRange: '@stateRange', endRange: '@endRange'}, isArray: true},
+		'subscribe': {method:'POST', params:{'idProfil': '@idProfil'}}
 	});
 });
 
@@ -32,7 +33,7 @@ module.controller('EventListCtrl', function($scope, EventsFactory){
     });
 });
 
-module.controller('EventCardCtrl', function($scope, EventsFactory, $stateParams) {	
+module.controller('EventCardCtrl', function($scope, $state, EventsFactory, LoginService, $stateParams) {	
 	$scope.event = {};
 	EventsFactory.query().$promise.then(function(result) {
 		angular.forEach(result, function(value, key){
@@ -41,11 +42,19 @@ module.controller('EventCardCtrl', function($scope, EventsFactory, $stateParams)
 			}
 		})
 	});	
-	$scope.goToProfilOrganizer = function() {
-        // TODO : Rediriger vers le profil de l'organisateur
+	$scope.goToProfilOrganizer = function(id) {
+		$state.go('app.profile.logged.friends', {userId: id});
     };
     $scope.subscribeToEvent = function() {
     	// TODO : S'inscrire à l'évènement seulement si on est loggé
+    	if (LoginService.isLogged()){
+    		EventsFactory.subscribe({"id":$stateParams.id,"idProfil":LoginService.getUserId()}).$promise.then(function(result) {
+    			console.log(result);
+    		});
+    	}
+    	else {
+    		alert ('NOT LOGGED');
+    	}
     }
     $scope.shareEvent = function() {
     	// TODO : Envoyer un mail avec les informations correspondantes
