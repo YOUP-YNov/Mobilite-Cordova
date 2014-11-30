@@ -1,0 +1,26 @@
+<ion-view>
+	<ion-content>
+
+		<ion-refresher 
+			pulling-text="Tirez pour rafraichir" 
+			on-refresh="refreshEvents()">
+		</ion-refresher>
+		<ion-list>	
+			<ion-item href="#/event/card/{{event.Evenement_id}}" ng-repeat="event in events">
+				<img ng-src="{{event.OrganisateurImageUrl}}" class="positive-bg eventPicture">
+				<p>
+					{{event.DateEvenement | date : "dd MMMM yyyy hh:mm"}}<br>
+					{{event.Adresse.Ville}}<br>
+					{{event.Categorie_Libelle}}<br>
+					<strong>{{event.Prix + " €"}}</strong><br>		
+				</p>
+				<h2><strong>{{event.TitreEvenement}}</strong></h2>
+			</ion-item>
+		</ion-list>
+		<ion-infinite-scroll 
+			on-infinite="loadMore()" 
+			distance="1%">
+		</ion-infinite-scroll>
+
+	</ion-content>
+</ion-view>

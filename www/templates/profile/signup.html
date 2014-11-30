@@ -1,0 +1,50 @@
+<ion-view>
+	<ion-content>
+
+        <form ng-submit="doSignUp()">
+            <div class="list">
+                <label class="item item-input">
+                    <span class="input-label">Pseudo</span>
+                    <input type="text" ng-model="signupData.username">
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Mot de passe</span>
+                    <input type="text" ng-model="signupData.password">
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Confirmer mot de passe</span>
+                    <input type="text" ng-model="signupData.verifpassword">
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">E-Mail</span>
+                    <input type="text" ng-model="signupData.mail">
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Nom</span>
+                    <input type="text" ng-model="signupData.lastname">
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Prénom</span>
+                    <input type="text" ng-model="signupData.firstname">
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Date de naissance</span>
+                    <input type="date" ng-model="signupData.birthday">
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Ville</span>
+                    <input type="text" ng-model="signupData.city">
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Code postal</span>
+                    <input type="text" ng-model="signupData.zipcode">
+                </label>
+
+				<label class="item">
+					<button class="button button-block button-positive" type="submit">Créer son compte</button>
+				</label>
+			</div>
+		</form>
+
+	</ion-content>
+</ion-view>

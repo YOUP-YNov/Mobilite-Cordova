@@ -1,0 +1,10 @@
+<ion-view>
+	<ion-content>
+		<ion-list>
+			<ion-item ng-repeat="friend in friendList" nav-clear menu-close ui-sref="app.profile.logged.friends({userId: friend.Utilisateur_Id})">
+				<img src="{{friend.PhotoChemin}}" class="positive-bg eventPicture"/>
+				{{friend.Pseudo}}
+			</ion-item>
+		</ion-list>
+	</ion-content>
+</ion-view>
