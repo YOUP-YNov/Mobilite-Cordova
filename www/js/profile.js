@@ -70,7 +70,7 @@ module.controller('LoginCtrl', function($scope, $state, $ionicPopup, LoginServic
     $scope.loginSuccess = function() {
         
         var successPopup = $ionicPopup.show({
-            title: 'Login Success',
+            title: 'Vous êtes connecté',
             scope: null,
             buttons: [
                 { 
@@ -87,7 +87,7 @@ module.controller('LoginCtrl', function($scope, $state, $ionicPopup, LoginServic
     $scope.loginFail = function() {
         
         var successPopup = $ionicPopup.alert({
-            title: 'Login Fail'
+            title: 'Echec de connexion'
         });
     };
 });
@@ -230,13 +230,13 @@ module.service('SignUpService', function(User) {
         // console.log(signUpData);
         // Check data
         if(!signUpData.username || !signUpData.password || !signUpData.verifpassword || !signUpData.mail) {
-            error = 'Fields required missing';
+            error = 'Champs requis manquant';
         } else if (signUpData.username !== encodeURIComponent(signUpData.username)) {
-            error = 'Username may not contain any non-url-safe characters';
+            error = 'Le pseudo contient des caractères interdis';
         } else if (!signUpData.mail.match(EMAIL_REGEX)) {
-            error = 'Invalid email';
+            error = 'E-Mail invalide';
         } else if (signUpData.password !== signUpData.verifpassword) {
-            error = 'password don\'t match';
+            error = 'Les mots de passe sont différents';
         } else {
             error = 'GOOD';
         }
@@ -321,28 +321,20 @@ module.factory('User', function($resource) {
                         'MotDePasse':    '@password',
                         'Nom':           '@lastname',
                         'Prenom':        '@firstname',
-                        'Sexe':          '@gender',
                         'AdresseMail':   '@mail',
                         'DateNaissance': '@birthday',
                         'Ville':         '@city',
                         'CodePostal':    '@zipcode',
-                        'Situation':     '@sex',
-                        'Presentation':  '@bio',
-                        'Metier':        '@job'
                     }},
         save:     {method:'PUT',    data:{
                         'Pseudo':        '@username',
                         'MotDePasse':    '@password',
                         'Nom':           '@lastname',
                         'Prenom':        '@firstname',
-                        'Sexe':          '@gender',
-                        'AdresseMail':   '@',
+                        'AdresseMail':   '@mail',
                         'DateNaissance': '@birthday',
                         'Ville':         '@city',
                         'CodePostal':    '@zipcode',
-                        'Situation':     '@sex',
-                        'Presentation':  '@bio',
-                        'Metier':        '@job'
                     }}
     });
 });

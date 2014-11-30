@@ -6,8 +6,8 @@ module.controller('SideMenuCtrl', function($scope, $state, $ionicPopup, LoginSer
 
 	$scope.isLogged = LoginService.isLogged();
 
-    $scope.friendsLink      = {name: 'Profile',     state: 'logged.friends'};
-    $scope.connectionLink   = {name: 'Connection',  state: 'notLogged.login'};
+    $scope.friendsLink      = {name: 'Profil',     state: 'logged.friends'};
+    $scope.connectionLink   = {name: 'Connexion',  state: 'notLogged.login'};
 
     $scope.onLoginStatusChanged = function() {
         if (LoginService.isLogged()) {
