@@ -28,25 +28,17 @@ module.controller('LoggedCtrl', function($scope, $state, LoginService, UserServi
 	LoginService.addLoginStatusChanged($scope.setCurrentProfile);
 
 	$scope.setCurrentProfile();
+
+	$scope.doAddFriend = function() {
+	}
 });
 
-module.controller('FriendsCtrl', function($scope, $state, LoginService) {
-	$scope.defineFriends = [
-		{name: "wildfier",   userId: 0},
-		{name: "Fluttershy", userId: 1},
-		{name: "Derpy",      userId: 2},
-		{name: "Luna",       userId: 3}
-	];
-
+module.controller('FriendsCtrl', function($scope, $state, LoginService, Friend) {
 	$scope.friendList = [];
 
-	angular.forEach($scope.defineFriends, function(friend) {
-		if( $state.params.userId.length == 0 ||
-			($state.params.userId.length != 0
-			 && friend.userId != $state.params.userId)
-		) {
-			$scope.friendList.push(friend);
-		}
+	Friend.get({id: $scope.user.Utilisateur_Id}).$promise.then(function(result) {
+		console.log(result);
+		$scope.friendList = result;
 	});
 });
 
@@ -336,6 +328,12 @@ module.factory('User', function($resource) {
                         'Ville':         '@city',
                         'CodePostal':    '@zipcode',
                     }}
+    });
+});
+
+module.factory('Friend', function($resource) {
+    return $resource(BASE_URL.profile + 'api/Friend/:id', {}, {
+		get:      {method:'GET',    params:{id:'@id'}, isArray: true}
     });
 });
 
