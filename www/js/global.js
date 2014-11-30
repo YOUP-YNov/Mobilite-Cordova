@@ -27,7 +27,7 @@ module.controller('SideMenuCtrl', function($scope, $state, $ionicPopup, LoginSer
 
     $scope.logoutPopup = function() {
         var logoutPopup = $ionicPopup.alert({
-            title: 'Logout Success'
+            title: 'Vous êtes déconnecté'
         });
     };
 
