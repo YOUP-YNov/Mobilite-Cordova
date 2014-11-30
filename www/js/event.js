@@ -14,10 +14,15 @@ module.factory('EventsFactory', function($resource){
 module.controller('EventCtrl', function($scope){
 });
 
-module.controller('EventListCtrl', function($scope, $state, EventsFactory){
+module.controller('EventListCtrl', function($scope, $state, EventsFactory, LoginService){
 
-	if($state.params.userId != undefined)
-		$scope.idUser = $state.params.userId;
+	if($state.params.userId != undefined) {
+		if($state.params.userId != "") {
+			$scope.idUser = $state.params.userId;
+		} else {
+			$scope.idUser = LoginService.getUserId();
+		}
+	}
 
 	$scope.events = {};
 	$scope.refreshEvents = function() {
