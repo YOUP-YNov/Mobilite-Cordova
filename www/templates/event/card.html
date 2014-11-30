@@ -1,40 +1,41 @@
 <ion-view>
 	<ion-content>
-
-		<div align=center class="padding-top">
-			<h4>{{event.TitreEvenement}}</h4>
+		<div ng-hide="showDetails">Chargement...</div>
+		<div ng-show="showDetails">
+			<div align=center class="padding-top padding-left padding-right">
+				<h4>{{event.TitreEvenement}}</h4>
+			</div>
+			<div class="card">
+			  <div class="item item-text-wrap">
+				<img ng-src="{{event.ImageUrl}}" class="positive-bg eventPicture">
+				<p>
+					{{event.DateEvenement | date : 'MMM d, y h:mm a'}}<br>
+					{{event.Adresse.Ville}}<br>
+					{{event.Categorie_Libelle}}<br>
+					{{event.Prix + " €"}}<br>
+				</p>
+				<p class="clear"></p>
+				<p class="padding-top">
+					<button class="button button-small button-positive" ng-click="goToProfilOrganizer(event.Organisateur_id)">
+						Organisateur
+					</button>
+					<button class="button button-small" ng-click="subscribeToEvent()">
+						S'inscrire
+					</button>
+					<button class="button button-small" ng-click="shareEvent">
+						Partager
+					</button>
+				</p>
+			  </div>
+			</div>
+			<div class="padding-left padding-right">
+				<p>
+					Description :
+				</p>
+				<p>
+					{{event.DescriptionEvenement}}
+				</p>
+			</div>
 		</div>
-		<div class="card">
-		  <div class="item item-text-wrap">
-			<img ng-src="{{event.OrganisateurImageUrl}}" class="positive-bg eventPicture">
-			<p>
-				{{event.DateEvenement | date : 'MMM d, y h:mm a'}}<br>
-				{{event.Adresse.Ville}}<br>
-				{{event.Categorie_Libelle}}<br>
-				{{event.Prix + " €"}}<br>
-			</p>
-			<p class="clear"></p>
-			<p class="padding-top">
-				<button class="button button-small button-positive" ng-click="goToProfilOrganizer(event.Organisateur_id)">
-					Organisateur
-				</button>
-				<button class="button button-small" ng-click="subscribeToEvent()">
-					S'inscrire
-				</button>
-				<button class="button button-small" ng-click="shareEvent">
-					Partager
-				</button>
-			</p>
-		  </div>
-		</div>
-		<div class="padding-left padding-right">
-			<p>
-				Description : 
-			</p>
-			<p>
-				{{event.DescriptionEvenement}}
-			</p>
-		</div>
-
 	</ion-content>
 </ion-view>

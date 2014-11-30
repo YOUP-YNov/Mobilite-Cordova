@@ -1,6 +1,8 @@
 /* Empty. Add your own CSS if you like */
 .eventPicture {
+	background-color: #367bb7;
 	width: 80px;
+	height: 80px;
 	float: left;
 	margin-right: 10px;
 }

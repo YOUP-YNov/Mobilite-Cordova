@@ -5,8 +5,15 @@ var module = angular.module('youp.event', ['ionic', 'ngResource', 'youp.profile'
 module.factory('EventsFactory', function($resource){
 	return $resource(BASE_URL.event + 'api/Evenement/:id', null, {
 		'query': {method: 'GET', params: {date_search: '@dateSearch', id_Categorie: '@idCategorie', premium: '@premium', max_result: '@maxResult', max_id: '@maxId', text_search: '@textSearch', orderby: '@orderBy', startRange: '@stateRange', endRange: '@endRange'}, isArray: true},
-		'subscribe': {method:'POST', params:{'idProfil': '@idProfil'}},
+		'subscribe': {method: 'POST', params:  {idProfil: '@idProfil'}},
+		'get': {method: 'GET', params: {id: '@id'}},
 		'getByUser': {method: 'GET', params: {id: '@id'}, url: BASE_URL.event + 'api/Profil/:id/Evenements', isArray: true}
+	});
+});
+
+module.factory('CommentsFactory', function($resource){
+	return $resource('http://forumyoup.apphb.com/api/MessageTopic/:IDTopic', null, {
+		'query': {method: 'GET', params: {IDTopic: '@IDTopic'}, isArray: true}
 	});
 });
 
@@ -25,6 +32,7 @@ module.controller('EventListCtrl', function($scope, $state, EventsFactory, Login
 	}
 
 	$scope.events = {};
+	$scope.haveResult = true;
 	$scope.refreshEvents = function() {
 		var query;
 
@@ -36,23 +44,31 @@ module.controller('EventListCtrl', function($scope, $state, EventsFactory, Login
 
 		query.$promise.then(function(result) {
 			$scope.events = result;
+			console.log(result);
 			$scope.$broadcast('scroll.refreshComplete');
+		}, function(error) {
+			console.log(error);
 		});
     };
+
     $scope.loadMore = function() {
 		var query;
 		if($scope.idUser != undefined) {
 			query = EventsFactory.getByUser({id: $scope.idUser});
 		} else {
 			var eventsNumber = $scope.events.length;
+			console.log($scope.events.length);
 			query = EventsFactory.query({"max_result":eventsNumber + 10});
 		}
 
 		query.$promise.then(function(result) {
 			$scope.events = result;
 			$scope.$broadcast('scroll.infiniteScrollComplete');
+		}, function(error) {
+			console.log(error);
 		});
     };
+    
     $scope.$on('$stateChangeSuccess', function() {
     	$scope.loadMore();
     });
@@ -60,13 +76,15 @@ module.controller('EventListCtrl', function($scope, $state, EventsFactory, Login
 
 module.controller('EventCardCtrl', function($scope, $state, EventsFactory, LoginService, $stateParams) {	
 	$scope.event = {};
-	EventsFactory.query().$promise.then(function(result) {
-		angular.forEach(result, function(value, key){
-			if(value.Evenement_id == $stateParams.id){
-				$scope.event = value;
-			}
-		})
-	});	
+	$scope.showDetails = false;
+	var evenement = EventsFactory.get({id: $stateParams.id}, function(value, responseHeaders){
+		console.log(value);
+		console.log(responseHeaders);
+		$scope.event = evenement;
+		$scope.showDetails = true;
+	}, function(httpResponse){
+		console.log(httpResponse);
+	});
 	$scope.goToProfilOrganizer = function(id) {
 		$state.go('app.profile.logged.friends', {userId: id});
     };
@@ -75,6 +93,8 @@ module.controller('EventCardCtrl', function($scope, $state, EventsFactory, Login
     	if (LoginService.isLogged()){
     		EventsFactory.subscribe({"id":$stateParams.id,"idProfil":LoginService.getUserId()}).$promise.then(function(result) {
     			console.log(result);
+    		}, function(error) {
+    			console.log(error);
     		});
     	}
     	else {
@@ -86,14 +106,17 @@ module.controller('EventCardCtrl', function($scope, $state, EventsFactory, Login
     }
 });
 
-module.controller('EventCommentCtrl', function($scope, EventsFactory, $stateParams){
-	$scope.event = {};
-	EventsFactory.query().$promise.then(function(result) {
+module.controller('EventCommentCtrl', function($scope, CommentsFactory, $stateParams){
+	$scope.comments = {};
+	CommentsFactory.query({'IDTopic': '121'}).$promise.then(function(result) {
+		console.log(result);
 		angular.forEach(result, function(value, key){
-			if(value.Evenement_id == $stateParams.id){
-				$scope.event = value;
+			if(value.Topic_id == '121'){
+				$scope.comments = value;
 			}
 		})
+	}, function(error) {
+		console.log(error);
 	});
 });
 
