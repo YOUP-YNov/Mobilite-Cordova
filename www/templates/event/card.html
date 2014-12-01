@@ -9,7 +9,7 @@
 			  <div class="item item-text-wrap">
 				<img ng-src="{{event.ImageUrl}}" class="positive-bg eventPicture">
 				<p>
-					{{event.DateEvenement | date : 'MMM d, y h:mm a'}}<br>
+					{{event.DateEvenement | date : 'longDate'}}<br>
 					{{event.Adresse.Ville}}<br>
 					{{event.Categorie_Libelle}}<br>
 					{{event.Prix + " €"}}<br>
@@ -19,10 +19,10 @@
 					<button class="button button-small button-positive" ng-click="goToProfilOrganizer(event.Organisateur_id)">
 						Organisateur
 					</button>
-					<button class="button button-small" ng-click="subscribeToEvent()">
+					<button class="button button-small" ng-click="subscribeToEvent()" ng-show="showSubscribeButton">
 						S'inscrire
 					</button>
-					<button class="button button-small" ng-click="shareEvent">
+					<button class="button button-small" ng-click="shareEvent" ng-show="showSubscribeButton">
 						Partager
 					</button>
 				</p>
