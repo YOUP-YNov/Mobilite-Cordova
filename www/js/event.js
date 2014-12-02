@@ -72,12 +72,15 @@ module.controller('EventListCtrl', function($scope, $state, EventsFactory, Login
 		// });
   //   };
     
-  //   $scope.$on('$stateChangeSuccess', function() {
-  //   	$scope.loadMore();
-  //   });
+    // $scope.$on('$stateChangeSuccess', function() {
+    // 	$scope.loadMore();
+    // });
 });
 
-module.controller('EventCardCtrl', function($scope, $state, $ionicPopup, EventsFactory, LoginService, $stateParams) {	
+module.controller('EventCardCtrl', function($scope, $state, $ionicPopup, EventsFactory, LoginService, $stateParams, $ionicLoading) {	
+	$ionicLoading.show({
+      template: '<i class="ion-loading-a"></i>'
+    });
 	$scope.event = {};
 	$scope.showDetails = false;
 	$scope.showSubscribeButton = LoginService.isLogged();
@@ -86,6 +89,7 @@ module.controller('EventCardCtrl', function($scope, $state, $ionicPopup, EventsF
 		console.log(responseHeaders);
 		$scope.event = evenement;
 		$scope.showDetails = true;
+		$ionicLoading.hide();
 	}, function(httpResponse){
 		console.log(httpResponse);
 	});
