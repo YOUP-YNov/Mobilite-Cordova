@@ -5,7 +5,8 @@ var module = angular.module('youp.event', ['ionic', 'ngResource', 'youp.profile'
 module.factory('EventsFactory', function($resource){
 	return $resource(BASE_URL.event + 'api/Evenement/:id', null, {
 		'query': {method: 'GET', params: {date_search: '@dateSearch', id_Categorie: '@idCategorie', premium: '@premium', max_result: '@maxResult', max_id: '@maxId', text_search: '@textSearch', orderby: '@orderBy', startRange: '@stateRange', endRange: '@endRange'}, isArray: true},
-		'subscribe': {method: 'POST', params:  {idProfil: '@idProfil'}},
+		'subscribe': {method: 'POST', params:  {id_evenement: '@id_evenement', token: '@token'}, url: BASE_URL.event + 'api/Evenement/:id_evenement/Inscription'},
+		'unsubscribe': {method: 'POST', params:  {id_evenement: '@id_evenement', token: '@token'}, url: BASE_URL.event + 'api/Evenement/:id_evenement/Desinscription'},
 		'get': {method: 'GET', params: {id: '@id'}},
 		'getByUser': {method: 'GET', params: {id: '@id'}, url: BASE_URL.event + 'api/Profil/:id/Evenements', isArray: true}
 	});
@@ -51,32 +52,35 @@ module.controller('EventListCtrl', function($scope, $state, EventsFactory, Login
 		});
     };
 
-    $scope.loadMore = function() {
-		var query;
-		if($scope.idUser != undefined) {
-			query = EventsFactory.getByUser({id: $scope.idUser});
-		} else {
-			var eventsNumber = $scope.events.length;
-			console.log($scope.events.length);
-			query = EventsFactory.query({"max_result":eventsNumber + 10});
-		}
+    $scope.refreshEvents();
 
-		query.$promise.then(function(result) {
-			$scope.events = result;
-			$scope.$broadcast('scroll.infiniteScrollComplete');
-		}, function(error) {
-			console.log(error);
-		});
-    };
+  //   $scope.loadMore = function() {
+		// var query;
+		// if($scope.idUser != undefined) {
+		// 	query = EventsFactory.getByUser({id: $scope.idUser});
+		// } else {
+		// 	var eventsNumber = $scope.events.length;
+		// 	console.log($scope.events.length);
+		// 	query = EventsFactory.query({"max_result":eventsNumber + 10});
+		// }
+
+		// query.$promise.then(function(result) {
+		// 	$scope.events = result;
+		// 	$scope.$broadcast('scroll.infiniteScrollComplete');
+		// }, function(error) {
+		// 	console.log(error);
+		// });
+  //   };
     
-    $scope.$on('$stateChangeSuccess', function() {
-    	$scope.loadMore();
-    });
+  //   $scope.$on('$stateChangeSuccess', function() {
+  //   	$scope.loadMore();
+  //   });
 });
 
-module.controller('EventCardCtrl', function($scope, $state, EventsFactory, LoginService, $stateParams) {	
+module.controller('EventCardCtrl', function($scope, $state, $ionicPopup, EventsFactory, LoginService, $stateParams) {	
 	$scope.event = {};
 	$scope.showDetails = false;
+	$scope.showSubscribeButton = LoginService.isLogged();
 	var evenement = EventsFactory.get({id: $stateParams.id}, function(value, responseHeaders){
 		console.log(value);
 		console.log(responseHeaders);
@@ -85,22 +89,62 @@ module.controller('EventCardCtrl', function($scope, $state, EventsFactory, Login
 	}, function(httpResponse){
 		console.log(httpResponse);
 	});
+
 	$scope.goToProfilOrganizer = function(id) {
 		$state.go('app.profile.logged.friends', {userId: id});
     };
+
     $scope.subscribeToEvent = function() {
-    	// TODO : S'inscrire à l'évènement seulement si on est loggé
     	if (LoginService.isLogged()){
-    		EventsFactory.subscribe({"id":$stateParams.id,"idProfil":LoginService.getUserId()}).$promise.then(function(result) {
-    			console.log(result);
-    		}, function(error) {
-    			console.log(error);
-    		});
+    		var isRegistered = false;
+    		angular.forEach ($scope.event.Participants, function(value, key) {
+				if (value.UtilisateurId == LoginService.getUserId()) {
+					isRegistered = true;
+				};
+			});
+			if (isRegistered) {
+				$ionicPopup.alert({
+        			title: 'Inscription impossible',
+        			template: 'Vous êtes déjà inscrit à cet événement'
+        		});
+			}
+			else {
+				EventsFactory.subscribe({"id_evenement":$scope.event.Evenement_id,"token":LoginService.getToken()}).$promise.then(function(result) {
+	    			$ionicPopup.alert({
+	        			title: 'Inscription réussie',
+	        			template: 'Vous êtes désormais inscrit à cet événement. Soyez à l\'heure !'
+        			});        			
+	    		}, function(error) {
+	    			$ionicPopup.alert({
+	        			title: 'Echec de l\'inscription',
+	        			template: error
+        			});
+	    		});
+			}    		
     	}
     	else {
-    		alert ('NOT LOGGED');
+    		$ionicPopup.confirm({
+    			title: 'Inscription impossible',
+    			template: 'Vous devez d\'abord être connecté. Voulez-vous vous connecter ?',
+    			buttons: [{
+					text: 'Non',
+					type: 'button-default'
+				}, 
+				{
+					text: 'Oui',
+					type: 'button-positive',
+					onTap: function(e) {						
+						return true;
+					}
+				}]
+			}).then(function(res) {
+				if(res) {
+					$state.go('app.profile.notLogged.login');
+				}
+			});
     	}
     }
+
     $scope.shareEvent = function() {
     	// TODO : Envoyer un mail avec les informations correspondantes
     }

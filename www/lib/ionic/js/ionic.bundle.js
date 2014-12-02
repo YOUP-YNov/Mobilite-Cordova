@@ -16716,11 +16716,11 @@ function $IntervalProvider() {
 function $LocaleProvider(){
   this.$get = function() {
     return {
-      id: 'en-us',
+      id: 'fr-fr',
 
       NUMBER_FORMATS: {
-        DECIMAL_SEP: '.',
-        GROUP_SEP: ',',
+        DECIMAL_SEP: ',',
+        GROUP_SEP: '\u00a0',
         PATTERNS: [
           { // Decimal Pattern
             minInt: 1,
@@ -16736,33 +16736,33 @@ function $LocaleProvider(){
             minInt: 1,
             minFrac: 2,
             maxFrac: 2,
-            posPre: '\u00A4',
-            posSuf: '',
-            negPre: '(\u00A4',
-            negSuf: ')',
+            posPre: '',
+            posSuf: '\u00a0\u00a4',
+            negPre: '-',
+            negSuf: '\u00a0\u00a4',
             gSize: 3,
             lgSize: 3
           }
         ],
-        CURRENCY_SYM: '$'
+        CURRENCY_SYM: '€'
       },
 
       DATETIME_FORMATS: {
         MONTH:
-            'January,February,March,April,May,June,July,August,September,October,November,December'
+            'janvier,f\u00e9vrier,mars,avril,mai,juin,juillet,ao\u00fbt,septembre,octobre,novembre,d\u00e9cembre'
             .split(','),
-        SHORTMONTH:  'Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec'.split(','),
-        DAY: 'Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday'.split(','),
-        SHORTDAY: 'Sun,Mon,Tue,Wed,Thu,Fri,Sat'.split(','),
+        SHORTMONTH:  'janv.,f\u00e9vr.,mars,avr.,mai,juin,juil.,ao\u00fbt,sept.,oct.,nov.,d\u00e9c.'.split(','),
+        DAY: 'dimanche,lundi,mardi,mercredi,jeudi,vendredi,samedi'.split(','),
+        SHORTDAY: 'dim.,lun.,mar.,mer.,jeu.,ven.,sam.'.split(','),
         AMPMS: ['AM','PM'],
-        medium: 'MMM d, y h:mm:ss a',
-        short: 'M/d/yy h:mm a',
-        fullDate: 'EEEE, MMMM d, y',
-        longDate: 'MMMM d, y',
-        mediumDate: 'MMM d, y',
-        shortDate: 'M/d/yy',
-        mediumTime: 'h:mm:ss a',
-        shortTime: 'h:mm a'
+        medium: 'd MMM y HH:mm:ss',
+        short: 'dd/MM/y HH:mm',
+        fullDate: 'EEEE d MMMM y',
+        longDate: 'd MMMM y',
+        mediumDate: 'd MMM y',
+        shortDate: 'dd/MM/y',
+        mediumTime: 'HH:mm:ss',
+        shortTime: 'HH:mm'
       },
 
       pluralCat: function(num) {
