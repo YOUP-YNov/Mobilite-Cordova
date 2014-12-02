@@ -33,30 +33,24 @@ module.controller('LoggedCtrl', function($scope, $state, LoginService, UserServi
 	}
 });
 
-module.controller('FriendsCtrl', function($scope, $state, LoginService, Friend) {
+module.controller('FriendsCtrl', function($scope, $state, LoginService, Friend, $ionicPopup) {
 	$scope.friendList = [];
 
 	Friend.get({id: $scope.user.Utilisateur_Id}).$promise.then(function(result) {
-		console.log(result);
 		$scope.friendList = result;
 	});
 });
 
-module.controller('DetailsCtrl', function($scope, $ionicLoading, UserService, LoginService) {
-    $scope.showDetails = false;
+module.controller('DetailsCtrl', function($scope, $ionicLoading) {
     $ionicLoading.show({
       template: '<i class="ion-loading-a"></i>'
     });
+    $scope.showIt = false;
     $scope.profil = {};
-    if ($scope.user.length != 0) {
-        $ionicLoading.hide();  
-        $scope.profil = $scope.user.then;
-        $scope.showDetails = true;
-    }
-    else {
-        $ionicLoading.hide();
-        $scope.showDetails = false;
-    }
+            
+    $scope.profil = $scope.user;
+    $scope.showIt = true;
+    $ionicLoading.hide();  
 });
 
 module.controller('LoginCtrl', function($scope, $state, $ionicPopup, LoginService) {
