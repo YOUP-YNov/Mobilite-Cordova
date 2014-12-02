@@ -1,0 +1,23 @@
+<ion-view>
+	<ion-content>
+		<div ng-show="showDetails">
+			<div align=center class="padding-top padding-left padding-right">
+				<h4>{{profil.Pseudo}}</h4>
+			</div>
+			<div class="card">
+			  <div class="item item-text-wrap">
+				<img ng-src="{{profil.PhotoChemin}}" class="positive-bg eventPicture">
+				<p>					
+					Inscrit le {{profil.DateInscription | date : 'shortDate'}}<br>
+					Né le {{profil.DateNaissance | date : 'shortDate'}}<br>
+					{{profil.Ville}}<br>
+					{{profil.AdresseMail}}<br>
+				</p>
+				<p>
+					<strong>{{profil.Nom | uppercase}} {{profil.Prenom}}</strong>
+				</p>
+			  </div>
+			</div>
+		</div>
+	</ion-content>
+</ion-view>

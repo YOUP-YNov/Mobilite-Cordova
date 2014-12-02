@@ -42,6 +42,23 @@ module.controller('FriendsCtrl', function($scope, $state, LoginService, Friend) 
 	});
 });
 
+module.controller('DetailsCtrl', function($scope, $ionicLoading, UserService, LoginService) {
+    $scope.showDetails = false;
+    $ionicLoading.show({
+      template: '<i class="ion-loading-a"></i>'
+    });
+    $scope.profil = {};    
+    if ($scope.user.lenght != 0) {
+        $ionicLoading.hide();  
+        $scope.profil = $scope.user;
+        $scope.showDetails = true;
+    }
+    else {
+        $ionicLoading.hide();
+        $scope.showDetails = false;
+    }
+});
+
 module.controller('LoginCtrl', function($scope, $state, $ionicPopup, LoginService) {
 
     $scope.loginData = {};
@@ -346,6 +363,15 @@ module.config(function($stateProvider, $urlRouterProvider) {
                 'profileContent': {
                     templateUrl: "templates/profile/logged.html",
 					controller:  'LoggedCtrl'
+                }
+            }
+        })
+        .state('app.profile.logged.details', {
+            url:   "/details",
+            views: {
+                'detailsContent': {
+                    templateUrl: "templates/profile/details.html",
+                    controller:  'DetailsCtrl' 
                 }
             }
         })

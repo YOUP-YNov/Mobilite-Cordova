@@ -22,7 +22,7 @@ module.factory('CommentsFactory', function($resource){
 module.controller('EventCtrl', function($scope){
 });
 
-module.controller('EventListCtrl', function($scope, $state, EventsFactory, LoginService){
+module.controller('EventListCtrl', function($scope, $state, EventsFactory, LoginService, $ionicPopup){
 
 	if($state.params.userId != undefined) {
 		if($state.params.userId != "") {
@@ -48,7 +48,12 @@ module.controller('EventListCtrl', function($scope, $state, EventsFactory, Login
 			console.log(result);
 			$scope.$broadcast('scroll.refreshComplete');
 		}, function(error) {
+			$scope.$broadcast('scroll.refreshComplete');
 			console.log(error);
+			$ionicPopup.alert({
+    			title: 'Erreur',
+    			template: 'Impossible de récupérer les données'
+        	});
 		});
     };
 
@@ -91,7 +96,11 @@ module.controller('EventCardCtrl', function($scope, $state, $ionicPopup, EventsF
 		$scope.showDetails = true;
 		$ionicLoading.hide();
 	}, function(httpResponse){
-		console.log(httpResponse);
+		$ionicLoading.hide();
+		$ionicPopup.alert({
+			title: 'Erreur',
+			template: 'Impossible de récupérer les données'
+		});				
 	});
 
 	$scope.goToProfilOrganizer = function(id) {
