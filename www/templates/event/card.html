@@ -14,18 +14,18 @@
 					{{event.Categorie_Libelle}}<br>
 					{{event.Prix + " €"}}<br>
 				</p>
-				<p class="clear"></p>
-				<p class="padding-top">
+				<p class="clear"></p>		
+				<div class="padding-top">
 					<button class="button button-small button-positive" ng-click="goToProfilOrganizer(event.Organisateur_id)">
 						Organisateur
 					</button>
-					<button class="button button-small" ng-click="subscribeToEvent()" ng-show="showSubscribeButton">
+					<button class="button button-small" ng-click="subscribeToEvent()">
 						S'inscrire
 					</button>
-					<button class="button button-small" ng-click="shareEvent" ng-show="showSubscribeButton">
+					<button class="button button-small" ng-click="shareEvent">
 						Partager
 					</button>
-				</p>
+				</div>
 			  </div>
 			</div>
 			<div class="padding-left padding-right">

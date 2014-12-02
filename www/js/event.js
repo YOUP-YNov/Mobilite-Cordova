@@ -95,28 +95,52 @@ module.controller('EventCardCtrl', function($scope, $state, $ionicPopup, EventsF
     };
 
     $scope.subscribeToEvent = function() {
-    	// TODO : S'inscrire à l'évènement seulement si on est loggé
     	if (LoginService.isLogged()){
-    		console.log(LoginService.getUserId());
-    		console.log($scope.event.Participants);
+    		var isRegistered = false;
     		angular.forEach ($scope.event.Participants, function(value, key) {
 				if (value.UtilisateurId == LoginService.getUserId()) {
-					$ionicPopup.alert({
-            			title: 'Vous êtes déjà inscrit à cet événement',
-            			template: 'C\'est balo'
-        			});
+					isRegistered = true;
 				};
 			});
-    		// EventsFactory.subscribe({"id_evenement":$stateParams.id,"token":LoginService.getUserId()}).$promise.then(function(result) {
-    		// 	console.log(result);
-    		// }, function(error) {
-    		// 	console.log(error);
-    		// });
+			if (isRegistered) {
+				$ionicPopup.alert({
+        			title: 'Inscription impossible',
+        			template: 'Vous êtes déjà inscrit à cet événement'
+        		});
+			}
+			else {
+				EventsFactory.subscribe({"id_evenement":$scope.event.Evenement_id,"token":LoginService.getToken()}).$promise.then(function(result) {
+	    			$ionicPopup.alert({
+	        			title: 'Inscription réussie',
+	        			template: 'Vous êtes désormais inscrit à cet événement. Soyez à l\'heure !'
+        			});        			
+	    		}, function(error) {
+	    			$ionicPopup.alert({
+	        			title: 'Echec de l\'inscription',
+	        			template: error
+        			});
+	    		});
+			}    		
     	}
     	else {
-    		$ionicPopup.alert({
-    			title: 'Vous devez vous connecter',
-    			template: 'Et oui !'
+    		$ionicPopup.confirm({
+    			title: 'Inscription impossible',
+    			template: 'Vous devez d\'abord être connecté. Voulez-vous vous connecter ?',
+    			buttons: [{
+					text: 'Non',
+					type: 'button-default'
+				}, 
+				{
+					text: 'Oui',
+					type: 'button-positive',
+					onTap: function(e) {						
+						return true;
+					}
+				}]
+			}).then(function(res) {
+				if(res) {
+					$state.go('app.profile.notLogged.login');
+				}
 			});
     	}
     }
