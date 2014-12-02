@@ -44,12 +44,10 @@ module.controller('EventListCtrl', function($scope, $state, EventsFactory, Login
 		}
 
 		query.$promise.then(function(result) {
-			$scope.events = result;
-			console.log(result);
+			$scope.events = result;			
 			$scope.$broadcast('scroll.refreshComplete');
 		}, function(error) {
 			$scope.$broadcast('scroll.refreshComplete');
-			console.log(error);
 			$ionicPopup.alert({
     			title: 'Erreur',
     			template: 'Impossible de récupérer les données'
@@ -59,23 +57,21 @@ module.controller('EventListCtrl', function($scope, $state, EventsFactory, Login
 
     $scope.refreshEvents();
 
-  //   $scope.loadMore = function() {
-		// var query;
-		// if($scope.idUser != undefined) {
-		// 	query = EventsFactory.getByUser({id: $scope.idUser});
-		// } else {
-		// 	var eventsNumber = $scope.events.length;
-		// 	console.log($scope.events.length);
-		// 	query = EventsFactory.query({"max_result":eventsNumber + 10});
-		// }
+    $scope.loadMore = function() {
+		var query;
+		if($scope.idUser != undefined) {
+			query = EventsFactory.getByUser({id: $scope.idUser});
+		} else {
+			var eventsNumber = $scope.events.length;
+			query = EventsFactory.query({"max_result":eventsNumber + 10});
+		}
 
-		// query.$promise.then(function(result) {
-		// 	$scope.events = result;
-		// 	$scope.$broadcast('scroll.infiniteScrollComplete');
-		// }, function(error) {
-		// 	console.log(error);
-		// });
-  //   };
+		query.$promise.then(function(result) {
+			$scope.events = result;
+			$scope.$broadcast('scroll.infiniteScrollComplete');
+		}, function(error) {
+		});
+    };
     
     // $scope.$on('$stateChangeSuccess', function() {
     // 	$scope.loadMore();
@@ -90,8 +86,6 @@ module.controller('EventCardCtrl', function($scope, $state, $ionicPopup, EventsF
 	$scope.showDetails = false;
 	$scope.showSubscribeButton = LoginService.isLogged();
 	var evenement = EventsFactory.get({id: $stateParams.id}, function(value, responseHeaders){
-		console.log(value);
-		console.log(responseHeaders);
 		$scope.event = evenement;
 		$scope.showDetails = true;
 		$ionicLoading.hide();
@@ -166,14 +160,12 @@ module.controller('EventCardCtrl', function($scope, $state, $ionicPopup, EventsF
 module.controller('EventCommentCtrl', function($scope, CommentsFactory, $stateParams){
 	$scope.comments = {};
 	CommentsFactory.query({'IDTopic': '121'}).$promise.then(function(result) {
-		console.log(result);
 		angular.forEach(result, function(value, key){
 			if(value.Topic_id == '121'){
 				$scope.comments = value;
 			}
 		})
 	}, function(error) {
-		console.log(error);
 	});
 });
 

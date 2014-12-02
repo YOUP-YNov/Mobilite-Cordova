@@ -5,27 +5,32 @@
 				<h4>{{event.TitreEvenement}}</h4>
 			</div>
 			<div class="card">
-			  <div class="item item-text-wrap">
-				<img ng-src="{{event.ImageUrl}}" class="positive-bg eventPicture">
-				<p>
-					{{event.DateEvenement | date : 'longDate'}}<br>
-					{{event.Adresse.Ville}}<br>
-					{{event.Categorie_Libelle}}<br>
-					{{event.Prix + " €"}}<br>
-				</p>
-				<p class="clear"></p>		
-				<div class="padding-top">
-					<button class="button button-small button-positive" ng-click="goToProfilOrganizer(event.Organisateur_id)">
+				<div class="item item-text-wrap">
+					<img ng-src="{{event.ImageUrl}}" class="positive-bg eventPicture clear">
+					<p>
+						{{event.DateEvenement | date : 'longDate'}}<br>
+						{{event.Adresse.Ville}}<br>
+						{{event.Categorie_Libelle}}<br>
+						{{event.Prix + " €"}}<br>
+					</p>					
+				</div>				
+			</div>
+			<div class="row">
+				<div class="col">
+					<button class="button button-small button-block button-positive" ng-click="goToProfilOrganizer(event.Organisateur_id)">
 						{{event.OrganisateurPseudo}}
 					</button>
-					<button class="button button-small" ng-click="subscribeToEvent()">
+				</div>
+				<div class="col">
+					<button class="button button-small button-block" ng-click="subscribeToEvent()">
 						S'inscrire
 					</button>
-					<button class="button button-small" ng-click="shareEvent">
+				</div>
+				<div class="col">
+					<button class="button button-small button-block" ng-click="shareEvent">
 						Partager
 					</button>
 				</div>
-			  </div>
 			</div>
 			<div class="padding-left padding-right">
 				<p>

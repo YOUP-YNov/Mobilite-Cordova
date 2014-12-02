@@ -47,10 +47,10 @@ module.controller('DetailsCtrl', function($scope, $ionicLoading, UserService, Lo
     $ionicLoading.show({
       template: '<i class="ion-loading-a"></i>'
     });
-    $scope.profil = {};    
-    if ($scope.user.lenght != 0) {
+    $scope.profil = {};
+    if ($scope.user.length != 0) {
         $ionicLoading.hide();  
-        $scope.profil = $scope.user;
+        $scope.profil = $scope.user.then;
         $scope.showDetails = true;
     }
     else {
