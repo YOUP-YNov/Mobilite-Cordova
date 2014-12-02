@@ -5,11 +5,14 @@
 	</ion-nav-buttons>
 
     <ion-tabs class="tabs-striped tabs-top tabs-background-positive tabs-light" animation="slide-left-right">
-        <ion-tab title="Amis" ui-sref="app.profile.logged.friends">
-                <ion-nav-view name="friendsContent" class="light-bg"></ion-nav-view>
-        </ion-tab>
+        <ion-tab title="Profil" ui-sref="app.profile.logged.details">
+                <ion-nav-view name="detailsContent" class="light-bg"></ion-nav-view>
+        </ion-tab>        
         <ion-tab title="Evénements" ui-sref="app.profile.logged.events">
                 <ion-nav-view name="eventsContent" class="light-bg"></ion-nav-view>
+        </ion-tab>
+        <ion-tab title="Amis" ui-sref="app.profile.logged.friends">
+                <ion-nav-view name="friendsContent" class="light-bg"></ion-nav-view>
         </ion-tab>
     </ion-tabs>
 
