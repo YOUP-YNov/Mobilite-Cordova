@@ -59,17 +59,22 @@ module.controller('EventListCtrl', function($scope, $state, EventsFactory, Login
 
     $scope.loadMore = function() {
 		var query;
+		var eventsNumber = $scope.events.length;
 		if($scope.idUser != undefined) {
 			query = EventsFactory.getByUser({id: $scope.idUser});
 		} else {
-			var eventsNumber = $scope.events.length;
-			query = EventsFactory.query({"max_result":eventsNumber + 10});
+			query = EventsFactory.query({"max_result":eventsNumber + 5});
 		}
 
 		query.$promise.then(function(result) {
 			$scope.events = result;
 			$scope.$broadcast('scroll.infiniteScrollComplete');
 		}, function(error) {
+			$ionicPopup.alert({
+    			title: 'Erreur',
+    			template: 'Impossible de récupérer les données'
+        	});
+			$scope.$broadcast('scroll.infiniteScrollComplete')
 		});
     };
     

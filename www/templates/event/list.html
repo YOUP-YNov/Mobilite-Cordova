@@ -8,13 +8,14 @@
 
 		<ion-list>
 			<ion-item href="#/event/card/{{event.Evenement_id}}" ng-repeat="event in events">
-				<!-- <img ng-src="{{event.ImageUrl}}" class="positive-bg eventPicture"> -->
-				<h2><strong>{{event.TitreEvenement}}</strong></h2>
+				<img ng-src="{{event.ImageUrl}}" class="positive-bg eventPicture">				
 				<p>
-					le {{event.DateEvenement | date : 'longDate'}} à {{event.DateEvenement | date : 'shortTime'}}<br>
-					{{event.Categorie_Libelle}} - {{event.Adresse.Ville}}<br>
+					le {{event.DateEvenement | date : 'shortDate'}} à {{event.DateEvenement | date : 'shortTime'}}<br>					
+					{{event.Adresse.Ville}}<br>
+					{{event.Categorie_Libelle}}<br>
 					<strong>{{event.Prix + " €"}}</strong><br>
-				</p>				
+				</p>
+				<h2><strong>{{event.TitreEvenement}}</strong></h2>
 			</ion-item>
 		</ion-list>
 

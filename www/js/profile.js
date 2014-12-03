@@ -80,7 +80,7 @@ module.controller('LoginCtrl', function($scope, $state, $ionicPopup, LoginServic
                     text: '<b>OK</b>',
                     type: 'button-positive',
                     onTap: function() {
-                        $state.go('app.profile.logged.friends');
+                        $state.go('app.profile.logged.details');
                     }
                 }
             ]
